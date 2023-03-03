@@ -1,30 +1,30 @@
 # UML 
 
-     +-------------------+         +-------------------+
-     |       Player      |         |       KenoGame    |
-     +-------------------+         +-------------------+
-     | -name: String     |         | -betCard: BetCard |
-     | -balance: double  |         | -drawings: Drawing[] |
-     |                   |         |                   |
-     | +getPlayerName(): |         | +getBetCard(): BetCard |
-     | +getBalance():    |         | +setBetCard(card: BetCard): void |
-     | +addBalance():    |         | +play(drawingCount: int): void |
-     |                   |         |                   |
-     |                   |         |                   |
-     +--------+----------+         +---------+---------+
+     +-------------------+         +---------------------------------+
+     |       Player      |         |            KenoGame             |
+     +-------------------+         +---------------------------------+
+     | -name: String     |         | -betCard: BetCard               |
+     | -balance: double  |         | -drawings: Drawing[]            |
+     |                   |         |                                 |
+     | +getPlayerName(): |         | +getBetCard(): BetCard          |
+     | +getBalance():    |         | +setBetCard(card: BetCard): void|
+     | +addBalance():    |         | +play(drawingCount: int): void  |
+     |                   |         |                                 |
+     |                   |         |                                 |
+     +--------+----------+         +---------+-----------------------+
               |                              |
               | uses                         | creates
               |                              |
-     +--------v----------+         +---------v---------+
-     |      BetCard      |         |       Drawing      |
-     +-------------------+         +-------------------+
-     | -spots: int[]     |         | -numbers: int[]   |
-     |                   |         |                   |
-     | +getSpots(): int[]|         | +getNumbers(): int[] |
+     +--------v----------+         +---------v----------------------+
+     |      BetCard      |         |       Drawing                  |
+     +-------------------+         +--------------------------------+
+     | -spots: int[]     |         | -numbers: int[]                |
+     |                   |         |                                |
+     | +getSpots(): int[]|         | +getNumbers(): int[]           |
      | +setSpot(i: int,  |         | +setNumbers(nums: int[]): void |
-     |  num: int): void  |         |                   |
-     |                   |         |                   |
-     +-------------------+         +-------------------+
+     |  num: int): void  |         |                                |
+     |                   |         |                                |
+     +-------------------+         +--------------------------------+
 
 The UML diagram includes four main classes: Player, KenoGame, BetCard, and Drawing. Here is a brief description of each class:
 
