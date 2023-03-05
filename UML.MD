@@ -50,7 +50,7 @@
 +-------------------------------------------------+
 ```
 
-# UML Diagram Explanation
+# UML Class Diagram Explanation
 
 The UML diagram consists of three classes: `KenoGame`, `BetCard`, and `GameResult`. Each of these classes has its own set of attributes and methods that are used to implement the game.
 
@@ -97,3 +97,23 @@ The `GameResult` class represents the result of a single drawing and contains th
 - `drawNums`: a list of integers representing the numbers that were drawn.
 - `matchNums`: a set of integers representing the numbers that matched the player's selected spots.
 - `winAmount`: a double representing the amount that the player won in the drawing.
+
+```
++----------------+             +-------------+               +------------+
+|    keno.game   |             | keno.gui    |               | keno.tests |
++----------------+             +-------------+               +------------+
+| -KenoGame      |             | -MainMenu   |               | -TestSuite  |
+| -BetCard       |             | -GameScreen |               | -GameTest   |
+| -GameResult    |             |             |               | -BetCardTest|
++----------------+             +-------------+               +------------+
+```
+
+# UML Class Diagram Explanation
+
+In this diagram, we have three packages: keno.game, keno.gui, and keno.tests.
+
+The keno.game package contains the core game logic, including the KenoGame, BetCard, and GameResult classes that are used to represent the state of the game.
+
+The keno.gui package contains the graphical user interface elements for the game, including the MainMenu and GameScreen classes that are used to display the main menu and the game screen, respectively.
+
+The keno.tests package contains the JUnit test classes for the game, including the TestSuite class that runs all of the test cases, as well as the GameTest and BetCardTest classes that test the game logic.
