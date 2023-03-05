@@ -31,13 +31,13 @@ This project requires the following dependencies:
 
 [Keno Game Object Diagram](./UML.MD)
 
-## Interaction Diagrams
+<!-- ## Interaction Diagrams
 
 ### Keno Game Initialization
 
 ### Keno Game Drawing
 
-[Keno Game Drawing](./KenoGame_Drawing.png)
+[Keno Game Drawing](./KenoGame_Drawing.png) -->
 
 ## Testing
 
