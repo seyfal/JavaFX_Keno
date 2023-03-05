@@ -116,4 +116,4 @@ The `keno.game` package contains the core game logic, including the `KenoGame`, 
 
 The `keno.gui` package contains the graphical user interface elements for the game, including the `MainMenu` and `GameScreen` classes that are used to display the main menu and the game screen, respectively.
 
-The 'keno.tests' package contains the JUnit test classes for the game, including the TestSuite class that runs all of the test cases, as well as the 'GameTest' and 'BetCardTest' classes that test the game logic.
+The `keno.tests` package contains the JUnit test classes for the game, including the TestSuite class that runs all of the test cases, as well as the `GameTest` and `BetCardTest` classes that test the game logic.
