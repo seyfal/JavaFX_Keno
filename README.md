@@ -37,7 +37,7 @@ This project requires the following dependencies:
  -->
 ### Keno Game Drawing
 
-[Keno Game Drawing](./wireframe.png)
+![Keno Game Drawing](./Project2.png)
 
 ## Testing
 
