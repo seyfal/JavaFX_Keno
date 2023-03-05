@@ -1,41 +1,50 @@
-# JavaFX_Keno
-CS 342 Project 2
-
 # Keno Game
 
-This is a simple command-line version of the classic casino game, Keno. The game allows players to pick up to 10 numbers from a pool of 80, and then randomly draws 20 numbers. The more numbers that match between the player's picks and the drawn numbers, the higher the payout.
-
-## Getting Started
-
-1. Clone the repository: `git clone https://github.com/your-username/keno-game.git`
-2. Navigate to the project directory: `cd keno-game`
-3. Install the required dependencies: `npm install`
-4. Start the game: `npm start`
+This is an implementation of the popular casino and state lottery game, Keno, developed in Java using JavaFX for the GUI and Maven for the project management.
 
 ## How to Play
 
-1. When prompted, enter your selected numbers (up to 10) separated by commas.
-2. The game will then randomly draw 20 numbers.
-3. The game will display the numbers you picked and the numbers drawn, as well as the number of matches.
-4. If you have any matching numbers, the game will display the payout based on the number of matches and your initial bet.
-5. You can then choose to play again or quit the game.
+Players wager by choosing a set amount of numbers ranging from 1 to 80. After all players have made their wagers and picked their numbers, twenty numbers are drawn at random, between 1 and 80 with no duplicates. Players win by matching a set amount of their numbers to the numbers that are randomly drawn.
 
-## Game Rules
+In this implementation, a single player can play the game by filling out a bet card with the number of spots they have chosen to play, selecting how many drawings they want to play the bet card for, and optionally letting the game pick their numbers for them. After each drawing, the player will be informed of how many numbers they matched, what those numbers were, and how much they have won on that drawing. They will also be notified of the total they have won since they started the program. After the selected amount of drawings have completed, the player will be able to fill out a new bet card, spots to play and drawings to play, or exit the program.
 
-- Players can pick between 1 and 10 numbers.
-- The pool of numbers to pick from is 1 to 80.
-- The game will randomly draw 20 numbers from the pool of 80.
-- Payouts are based on the number of matches between the player's picks and the drawn numbers, as well as the initial bet.
+## Installation and Usage
 
-## Technologies Used
+1. Clone the repository: `git clone https://github.com/yourusername/keno-game.git`
+2. Open the project in your preferred IDE (Eclipse, IntelliJ, etc.)
+3. Build the project using Maven: `mvn clean package`
+4. Run the project: `java -jar target/keno-game-1.0-SNAPSHOT-jar-with-dependencies.jar`
 
-- Java
-- JavaFX
+## Dependencies
 
-## Contributing
+This project requires the following dependencies:
 
-Contributions are welcome! If you would like to contribute to the project, please create a pull request.
+- Java 8 or higher
+- JavaFX 8 or higher
+- Maven 3 or higher
 
-## License
+## Class Diagram
 
-This project is licensed under the MIT License.
+![Keno Game Class Diagram](./KenoGame_Class_Diagram.png)
+
+## Object Diagram
+
+![Keno Game Object Diagram](./KenoGame_Object_Diagram.png)
+
+## Interaction Diagrams
+
+### Keno Game Initialization
+
+![Keno Game Initialization](./KenoGame_Initialization.png)
+
+### Keno Game Drawing
+
+![Keno Game Drawing](./KenoGame_Drawing.png)
+
+## Testing
+
+This project includes JUnit 5 test cases to test the logic of the game. These can be run using the following command: `mvn test`
+
+## Credits
+
+This project was created by [Your Name] for the CS 342 course at [Your University]. Some code and design ideas were adapted from various online resources and examples.
