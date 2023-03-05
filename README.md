@@ -8,14 +8,6 @@ Players wager by choosing a set amount of numbers ranging from 1 to 80. After al
 
 In this implementation, a single player can play the game by filling out a bet card with the number of spots they have chosen to play, selecting how many drawings they want to play the bet card for, and optionally letting the game pick their numbers for them. After each drawing, the player will be informed of how many numbers they matched, what those numbers were, and how much they have won on that drawing. They will also be notified of the total they have won since they started the program. After the selected amount of drawings have completed, the player will be able to fill out a new bet card, spots to play and drawings to play, or exit the program.
 
-## How to Play
-
-1. When prompted, enter your selected numbers (up to 10) separated by commas.
-2. The game will then randomly draw 20 numbers.
-3. The game will display the numbers you picked and the numbers drawn, as well as the number of matches.
-4. If you have any matching numbers, the game will display the payout based on the number of matches and your initial bet.
-5. You can then choose to play again or quit the game.
-
 ## Game Rules
 
 - Players can pick between 1 and 10 numbers.
