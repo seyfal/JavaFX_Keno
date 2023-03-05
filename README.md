@@ -25,6 +25,7 @@ This project requires the following dependencies:
 
 ## Class Diagram
 
+![Keno Game Class Diagram](./UML_diagram.png)
 [Keno Game Class Diagram](./UML.MD)
 
 ## Object Diagram
