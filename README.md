@@ -25,11 +25,11 @@ This project requires the following dependencies:
 
 ## Class Diagram
 
-![Keno Game Class Diagram](./UML.MD)
+[Keno Game Class Diagram](./UML.MD)
 
 ## Object Diagram
 
-![Keno Game Object Diagram](./UML.MD)
+[Keno Game Object Diagram](./UML.MD)
 
 ## Interaction Diagrams
 
@@ -37,7 +37,7 @@ This project requires the following dependencies:
 
 ### Keno Game Drawing
 
-![Keno Game Drawing](./KenoGame_Drawing.png)
+[Keno Game Drawing](./KenoGame_Drawing.png)
 
 ## Testing
 
