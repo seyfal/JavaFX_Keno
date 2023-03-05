@@ -110,10 +110,10 @@ The `GameResult` class represents the result of a single drawing and contains th
 
 # UML Class Diagram Explanation
 
-In this diagram, we have three packages: keno.game, keno.gui, and keno.tests.
+In this diagram, we have three packages: `keno.game`, `keno.gui`, and `keno.tests`
 
-The keno.game package contains the core game logic, including the KenoGame, BetCard, and GameResult classes that are used to represent the state of the game.
+The `keno.game` package contains the core game logic, including the `KenoGame`, `BetCard`, and `GameResult` classes that are used to represent the state of the game.
 
-The keno.gui package contains the graphical user interface elements for the game, including the MainMenu and GameScreen classes that are used to display the main menu and the game screen, respectively.
+The `keno.gui` package contains the graphical user interface elements for the game, including the `MainMenu` and `GameScreen` classes that are used to display the main menu and the game screen, respectively.
 
-The keno.tests package contains the JUnit test classes for the game, including the TestSuite class that runs all of the test cases, as well as the GameTest and BetCardTest classes that test the game logic.
+The 'keno.tests' package contains the JUnit test classes for the game, including the TestSuite class that runs all of the test cases, as well as the 'GameTest' and 'BetCardTest' classes that test the game logic.
