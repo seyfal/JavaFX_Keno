@@ -1,41 +1,97 @@
-# UML 
++------------------------------------------------+
+|                    KenoGame                    |
++------------------------------------------------+
+| - numSpots: int                                 |
+| - numDrawings: int                              |
+| - betCard: BetCard                              |
+| - drawnNumbers: List<Integer>                   |
+| - winnings: double                              |
+| - gameResults: List<GameResult>                 |
++------------------------------------------------+
+| + startGame(): void                             |
+| + selectNumSpots(numSpots: int): void           |
+| + selectNumDrawings(numDrawings: int): void     |
+| + selectBetCardNumber(number: int): void        |
+| + clearBetCard(): void                          |
+| + generateRandomNumbers(): void                 |
+| + calculateWinnings(): void                      |
+| + updateGameResults(): void                      |
+| + getGameResults(): List<GameResult>             |
++-------------------------------------------------+
 
-     +-------------------+         +---------------------------------+
-     |       Player      |         |            KenoGame             |
-     +-------------------+         +---------------------------------+
-     | -name: String     |         | -betCard: BetCard               |
-     | -balance: double  |         | -drawings: Drawing[]            |
-     |                   |         |                                 |
-     | +getPlayerName(): |         | +getBetCard(): BetCard          |
-     | +getBalance():    |         | +setBetCard(card: BetCard): void|
-     | +addBalance():    |         | +play(drawingCount: int): void  |
-     |                   |         |                                 |
-     |                   |         |                                 |
-     +--------+----------+         +---------+-----------------------+
-              |                              |
-              | uses                         | creates
-              |                              |
-     +--------v----------+         +---------v----------------------+
-     |      BetCard      |         |       Drawing                  |
-     +-------------------+         +--------------------------------+
-     | -spots: int[]     |         | -numbers: int[]                |
-     |                   |         |                                |
-     | +getSpots(): int[]|         | +getNumbers(): int[]           |
-     | +setSpot(i: int,  |         | +setNumbers(nums: int[]): void |
-     |  num: int): void  |         |                                |
-     |                   |         |                                |
-     +-------------------+         +--------------------------------+
++------------------------------------------------+
+|                    BetCard                     |
++------------------------------------------------+
+| - spots: int[]                                  |
+| - selectedSpots: Set<Integer>                   |
+| - selectedAuto: boolean                         |
++------------------------------------------------+
+| + selectSpot(spot: int): boolean                |
+| + deselectSpot(spot: int): boolean              |
+| + selectAuto(): void                            |
+| + deselectAuto(): void                          |
+| + clearSelectedSpots(): void                    |
+| + getSpots(): int[]                             |
+| + getSelectedSpots(): Set<Integer>              |
+| + isSelectedAuto(): boolean                     |
++-------------------------------------------------+
 
-The UML diagram includes four main classes: Player, KenoGame, BetCard, and Drawing. Here is a brief description of each class:
++------------------------------------------------+
+|                   GameResult                   |
++------------------------------------------------+
+| - drawNums: List<Integer>                       |
+| - matchNums: Set<Integer>                       |
+| - winAmount: double                             |
++------------------------------------------------+
+| + getDrawnNumbers(): List<Integer>              |
+| + getMatchedNumbers(): Set<Integer>             |
+| + getWinAmount(): double                        |
++-------------------------------------------------+
 
-Player: represents the player of the game. It has attributes such as the player's name and balance. It also has methods to get and add the player's balance.
+# UML Diagram Explanation
 
-KenoGame: represents the main game engine. It has a BetCard attribute and an array of Drawing objects that will be used to play the game. It also has methods to get and set the bet card, and to play the game with a given number of drawings.
+The UML diagram consists of three classes: `KenoGame`, `BetCard`, and `GameResult`. Each of these classes has its own set of attributes and methods that are used to implement the game.
 
-BetCard: represents the player's bet card. It has an array of int that stores the player's chosen spots. It has methods to get and set the chosen spots.
+Starting with the `KenoGame` class, this class represents the overall game and contains the following attributes:
 
-Drawing: represents a single drawing in the game. It has an array of int that stores the 20 randomly selected numbers. It has methods to get and set the drawn numbers.
+- `numSpots`: an integer representing the number of spots the player has chosen to play.
+- `numDrawings`: an integer representing the number of drawings the player has chosen to play.
+- `betCard`: an instance of the `BetCard` class representing the player's bet card.
+- `drawnNumbers`: a list of integers representing the numbers that have been randomly drawn in each drawing.
+- `winnings`: a double representing the total amount that the player has won since starting the game.
+- `gameResults`: a list of instances of the `GameResult` class representing the results of each drawing.
 
-The UML diagram also includes some relationships between the classes, such as the Player using the KenoGame, the KenoGame creating BetCard and Drawing objects, and the BetCard setting and getting the chosen spots.
+The `KenoGame` class also has several methods that are used to play the game, including:
 
-Note that this is just one possible UML diagram for the Keno game, and there may be other ways to represent the game's classes and their relationships.
+- `startGame()`: a method that starts the game and initializes the necessary variables.
+- `selectNumSpots(numSpots: int)`: a method that allows the player to select the number of spots they want to play.
+- `selectNumDrawings(numDrawings: int)`: a method that allows the player to select the number of drawings they want to play.
+- `selectBetCardNumber(number: int)`: a method that allows the player to select a number on their bet card.
+- `clearBetCard()`: a method that clears the player's bet card.
+- `generateRandomNumbers()`: a method that generates the random numbers for each drawing.
+- `calculateWinnings()`: a method that calculates the player's winnings for each drawing.
+- `updateGameResults()`: a method that updates the list of game results.
+- `getGameResults()`: a method that returns the list of game results.
+
+Moving on to the `BetCard` class, this class represents the player's bet card and contains the following attributes:
+
+- `spots`: an array of integers representing the spots on the bet card.
+- `selectedSpots`: a set of integers representing the spots that the player has selected.
+- `selectedAuto`: a boolean representing whether the player has chosen to have their numbers selected automatically.
+
+The `BetCard` class also has several methods that are used to interact with the bet card, including:
+
+- `selectSpot(spot: int)`: a method that allows the player to select a spot on the bet card.
+- `deselectSpot(spot: int)`: a method that allows the player to deselect a spot on the bet card.
+- `selectAuto()`: a method that allows the player to select automatic number selection.
+- `deselectAuto()`: a method that allows the player to deselect automatic number selection.
+- `clearSelectedSpots()`: a method that clears the player's selected spots.
+- `getSpots()`: a method that returns the array of spots on the bet card.
+- `getSelectedSpots()`: a method that returns the set of selected spots on the bet card.
+- `isSelectedAuto()`: a method that returns a boolean indicating whether the player has selected automatic number selection.
+
+The `GameResult` class represents the result of a single drawing and contains the following attributes:
+
+- `drawNums`: a list of integers representing the numbers that were drawn.
+- `matchNums`: a set of integers representing the numbers that matched the player's selected spots.
+- `winAmount`: a double representing the amount that the player won in the drawing.
