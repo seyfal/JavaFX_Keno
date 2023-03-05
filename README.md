@@ -25,17 +25,15 @@ This project requires the following dependencies:
 
 ## Class Diagram
 
-![Keno Game Class Diagram](./KenoGame_Class_Diagram.png)
+![Keno Game Class Diagram](./UML.MD)
 
 ## Object Diagram
 
-![Keno Game Object Diagram](./KenoGame_Object_Diagram.png)
+![Keno Game Object Diagram](./UML.MD)
 
 ## Interaction Diagrams
 
 ### Keno Game Initialization
-
-![Keno Game Initialization](./KenoGame_Initialization.png)
 
 ### Keno Game Drawing
 
@@ -47,4 +45,4 @@ This project includes JUnit 5 test cases to test the logic of the game. These ca
 
 ## Credits
 
-This project was created by [Your Name] for the CS 342 course at [Your University]. Some code and design ideas were adapted from various online resources and examples.
+This project was created by Seyfal Sultanov and Name2 for the CS 342 course at University of Illinois at Chicago. 
