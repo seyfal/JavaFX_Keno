@@ -12,9 +12,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-// lol
-
-
 public class JavaFXTemplate extends Application {
 
 	public static void main(String[] args) {
