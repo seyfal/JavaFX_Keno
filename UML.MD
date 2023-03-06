@@ -67,21 +67,21 @@ The `GameResult` class represents the result of a single drawing and contains th
 - `setScreen(screen: Parent)`: Sets the currently displayed screen of the GUI.
 - `switchToWelcomeScreen()`: Switches the currently displayed screen to the welcome screen.
 - `switchToGameplayScreen()`: Switches the currently displayed screen to the gameplay screen.
-# WelcomeScreen
+## WelcomeScreen
 
-## Attributes
+### Attributes
 
 - `root: Parent`: The root node of the scene graph for the welcome screen.
 - `gui: KenoGUI`: The KenoGUI instance to which the welcome screen belongs.
 - `playButton: Button`: The button for starting the game.
 
-## Methods
+### Methods
 
 - `init()`: Initializes the welcome screen by creating the scene graph and setting up the play button.
 - `onPlayButtonClicked(event: ActionEvent)`: Event handler for when the play button is clicked. Switches to the gameplay screen.
-# GameplayScreen
+## GameplayScreen
 
-## Attributes
+### Attributes
 
 - `root: Parent`: The root node of the scene graph for the gameplay screen.
 - `gui: KenoGUI`: The KenoGUI instance to which the gameplay screen belongs.
@@ -90,20 +90,76 @@ The `GameResult` class represents the result of a single drawing and contains th
 - `betCardGrid: BetCardGrid`: The bet card grid component of the gameplay screen.
 - `drawResults: DrawResults`: The draw results component of the gameplay screen.
 
-## Methods
+### Methods
 
 - `init()`: Initializes the gameplay screen by creating the scene graph and setting up its components.
 - `updateDrawResults(results: List<Int>)`: Updates the draw results component with the given list of numbers.
-# SpotsSelection
 
-## Attributes
+## WelcomeScreen
 
-- `root: Parent`: The root node of the scene graph for the spots selection component.
-- `gui: KenoGUI`: The KenoGUI instance to which the spots selection component belongs.
-- `selectedSpots: List<Integer>`: The list of currently selected spots.
-- `spotButtons: List<Button>`: The list of buttons for selecting spots.
+### Attributes
 
-## Methods
+- `root: Parent`: The root node of the scene graph for the welcome screen.
+- `gui: KenoGUI`: The KenoGUI instance to which the welcome screen belongs.
+- `playButton: Button`: The button for starting the game.
+
+### Methods
+
+- `init()`: Initializes the welcome screen by creating the scene graph and setting up the play button.
+- `onPlayButtonClicked(event: ActionEvent)`: Event handler for when the play button is clicked. Switches to the gameplay screen.
+## DrawingsSelection
+
+### Attributes
+
+- `root: Parent`: The root node of the scene graph for the drawings selection screen.
+- `gui: KenoGUI`: The KenoGUI instance to which the drawings selection screen belongs.
+- `drawings: List<CheckBox>`: The list of checkboxes representing the available drawings.
+
+### Methods
+
+- `init()`: Initializes the drawings selection screen by creating the scene graph and setting up the checkboxes.
+- `getSelectedDrawings(): List<Integer>`: Returns a list of the IDs of the selected drawings.
+## BetCardGrid
+
+### Attributes
+
+- `root: Parent`: The root node of the scene graph for the bet card grid.
+- `gui: KenoGUI`: The KenoGUI instance to which the bet card grid belongs.
+- `betCard: BetCard`: The BetCard instance represented by the grid.
+- `cells: List<List<BetCell>>`: The 2D list of BetCell instances representing the grid.
+
+### Methods
+
+- `init()`: Initializes the bet card grid by creating the scene graph and setting up the cells.
+- `getCell(row: Int, col: Int): BetCell`: Returns the BetCell instance at the specified row and column.
+- `update(): Unit`: Updates the scene graph to reflect changes in the bet card.
+## DrawResults
+
+### Attributes
+
+- `root: Parent`: The root node of the scene graph for the draw results screen.
+- `gui: KenoGUI`: The KenoGUI instance to which the draw results screen belongs.
+- `drawings: List<Int>`: The list of integers representing the numbers drawn.
+- `labels: List<Label>`: The list of labels representing the drawn numbers.
+
+### Methods
+
+- `init()`: Initializes the draw results screen by creating the scene graph and setting up the labels.
+- `update(drawings: List<Int>): Unit`: Updates the scene graph to reflect the new set of drawn numbers.
+## JavaFXTemplate
+
+### Attributes
+
+- `stage: Stage`: The primary stage of the JavaFX application.
+- `root: Parent`: The root node of the scene graph for the JavaFX scene.
+- `scene: Scene`: The scene for the JavaFX stage.
+
+### Methods
+
+- `init()`: Initializes the JavaFX application by creating the scene graph and setting up the stage.
+- `setScene(newScene: Scene): Unit`: Sets the scene for the JavaFX stage to the specified scene.
+- `show()`: Shows the JavaFX stage.
+
 
 - `init()`: Initializes the spots selection component by creating the scene graph and setting up the spot buttons.
 - `onSpotButtonClicked(event: ActionEvent)`: Event handler for when a spot button is clicked. Adds or removes the clicked spot from the selected spots list.
