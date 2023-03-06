@@ -48,22 +48,22 @@ The `GameResult` class represents the result of a single drawing and contains th
 - `matchNums`: a set of integers representing the numbers that matched the player's selected spots.
 - `winAmount`: a double representing the amount that the player won in the drawing.
 
-```
-+----------------+             +-------------+               +------------+
-|    keno.game   |             | keno.gui    |               | keno.tests |
-+----------------+             +-------------+               +------------+
-| -KenoGame      |             | -MainMenu   |               | -TestSuite  |
-| -BetCard       |             | -GameScreen |               | -GameTest   |
-| -GameResult    |             |             |               | -BetCardTest|
-+----------------+             +-------------+               +------------+
-```
+#GUI Classes 
 
-# UML Class Diagram Explanation
+## KenoGUI
 
-In this diagram, we have three packages: `keno.game`, `keno.gui`, and `keno.tests`
+### Attributes
 
-The `keno.game` package contains the core game logic, including the `KenoGame`, `BetCard`, and `GameResult` classes that are used to represent the state of the game.
+- `stage: Stage`: The JavaFX Stage on which the GUI is displayed.
+- `root: Parent`: The root node of the scene graph for the GUI.
+- `scene: Scene`: The scene containing the root node for the GUI.
+- `currentScreen: Parent`: The currently displayed screen of the GUI.
+- `welcomeScreen: WelcomeScreen`: The welcome screen of the GUI.
+- `gameplayScreen: GameplayScreen`: The gameplay screen of the GUI.
 
-The `keno.gui` package contains the graphical user interface elements for the game, including the `MainMenu` and `GameScreen` classes that are used to display the main menu and the game screen, respectively.
+### Methods
 
-The `keno.tests` package contains the JUnit test classes for the game, including the TestSuite class that runs all of the test cases, as well as the `GameTest` and `BetCardTest` classes that test the game logic.
+- `init()`: Initializes the GUI by creating the stage, setting the title, and showing the welcome screen.
+- `setScreen(screen: Parent)`: Sets the currently displayed screen of the GUI.
+- `switchToWelcomeScreen()`: Switches the currently displayed screen to the welcome screen.
+- `switchToGameplayScreen()`: Switches the currently displayed screen to the gameplay screen.
