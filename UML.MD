@@ -79,3 +79,32 @@ The `GameResult` class represents the result of a single drawing and contains th
 
 - `init()`: Initializes the welcome screen by creating the scene graph and setting up the play button.
 - `onPlayButtonClicked(event: ActionEvent)`: Event handler for when the play button is clicked. Switches to the gameplay screen.
+# GameplayScreen
+
+## Attributes
+
+- `root: Parent`: The root node of the scene graph for the gameplay screen.
+- `gui: KenoGUI`: The KenoGUI instance to which the gameplay screen belongs.
+- `spotsSelection: SpotsSelection`: The spots selection component of the gameplay screen.
+- `drawingsSelection: DrawingsSelection`: The drawings selection component of the gameplay screen.
+- `betCardGrid: BetCardGrid`: The bet card grid component of the gameplay screen.
+- `drawResults: DrawResults`: The draw results component of the gameplay screen.
+
+## Methods
+
+- `init()`: Initializes the gameplay screen by creating the scene graph and setting up its components.
+- `updateDrawResults(results: List<Int>)`: Updates the draw results component with the given list of numbers.
+# SpotsSelection
+
+## Attributes
+
+- `root: Parent`: The root node of the scene graph for the spots selection component.
+- `gui: KenoGUI`: The KenoGUI instance to which the spots selection component belongs.
+- `selectedSpots: List<Integer>`: The list of currently selected spots.
+- `spotButtons: List<Button>`: The list of buttons for selecting spots.
+
+## Methods
+
+- `init()`: Initializes the spots selection component by creating the scene graph and setting up the spot buttons.
+- `onSpotButtonClicked(event: ActionEvent)`: Event handler for when a spot button is clicked. Adds or removes the clicked spot from the selected spots list.
+- `getSelectedSpots()`: Returns the list of currently selected spots.
