@@ -1,4 +1,4 @@
-![Keno Game Class Diagram](./UML_diagram.png)
+![Keno Game Class Diagram](./UML_Project2.jpeg)
 
 # UML Class Diagram Explanation
 
