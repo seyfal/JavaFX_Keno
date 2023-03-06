@@ -67,3 +67,15 @@ The `GameResult` class represents the result of a single drawing and contains th
 - `setScreen(screen: Parent)`: Sets the currently displayed screen of the GUI.
 - `switchToWelcomeScreen()`: Switches the currently displayed screen to the welcome screen.
 - `switchToGameplayScreen()`: Switches the currently displayed screen to the gameplay screen.
+# WelcomeScreen
+
+## Attributes
+
+- `root: Parent`: The root node of the scene graph for the welcome screen.
+- `gui: KenoGUI`: The KenoGUI instance to which the welcome screen belongs.
+- `playButton: Button`: The button for starting the game.
+
+## Methods
+
+- `init()`: Initializes the welcome screen by creating the scene graph and setting up the play button.
+- `onPlayButtonClicked(event: ActionEvent)`: Event handler for when the play button is clicked. Switches to the gameplay screen.
