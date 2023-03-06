@@ -47,7 +47,7 @@ The `GameResult` class represents the result of a single drawing and contains th
 - `drawNums`: a list of integers representing the numbers that were drawn.
 - `matchNums`: a set of integers representing the numbers that matched the player's selected spots.
 - `winAmount`: a double representing the amount that the player won in the drawing.
-
+<!-- 
 #GUI Classes 
 
 ## KenoGUI
@@ -159,7 +159,7 @@ The `GameResult` class represents the result of a single drawing and contains th
 - `init()`: Initializes the JavaFX application by creating the scene graph and setting up the stage.
 - `setScene(newScene: Scene): Unit`: Sets the scene for the JavaFX stage to the specified scene.
 - `show()`: Shows the JavaFX stage.
-
+ -->
 
 - `init()`: Initializes the spots selection component by creating the scene graph and setting up the spot buttons.
 - `onSpotButtonClicked(event: ActionEvent)`: Event handler for when a spot button is clicked. Adds or removes the clicked spot from the selected spots list.
