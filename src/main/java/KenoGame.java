@@ -32,7 +32,7 @@ import javafx.scene.layout.GridPane;
     * getGameResults(): a method that returns the list of game results.
  */
 
-public class KenoGame {
+public class KenoGame extends JavaFXTemplate{
 
     private int numDrawings; // user chooses number of drawings
     private int numSpots; // user chooses number of spots 1, 4, 8 or 10
@@ -110,6 +110,17 @@ public class KenoGame {
             }
         }
     }
+
+    /*
+        * Reset bet card and selected numbers
+        * @param numDrawings number of drawings
+     */
+    private void clearBetCards()
+    {
+        selectedNumbers.clear();
+    }
+
+
 
     public void setSelectedNumbers(List<Integer> selectedNumbers) {
         this.selectedNumbers = selectedNumbers;
