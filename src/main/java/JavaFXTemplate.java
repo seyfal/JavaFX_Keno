@@ -18,28 +18,22 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import javafx.application.Application;
-import javafx.geometry.Insets;
-import javafx.scene.Scene;
+
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
-import javafx.animation.FadeTransition;
-import javafx.animation.PauseTransition;
-import javafx.animation.RotateTransition;
-import javafx.animation.SequentialTransition;
-import javafx.application.Application;
+
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.StrokeType;
 import javafx.scene.text.FontWeight;
+
+import java.util.Random;
 
 
 public class JavaFXTemplate extends Application {
 	private BorderPane root;
 	private Text welcomeText;
 	private Button backButton;
+	private int newLookNum;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -92,12 +86,12 @@ public class JavaFXTemplate extends Application {
 		welcomeText.setFill(Color.WHITE);
 		welcomeText.setStroke(Color.BLACK);
 		welcomeText.setStrokeType(StrokeType.OUTSIDE);
-		welcomeText.setStrokeWidth(2);
+		welcomeText.setStrokeWidth(3);
 		root.setCenter(welcomeText);
 
 		// add play button
 		Button playButton = new Button("Play");
-		playButton.setFont(new Font(40));
+		playButton.setFont(new Font(30));
 		playButton.setOnAction(event -> {
 			welcomeText.setText("Play Screen");
 			// remove "Play" button without removing the welcome text
@@ -110,12 +104,14 @@ public class JavaFXTemplate extends Application {
 		VBox vBox = new VBox(welcomeText, playButton);
 		vBox.setAlignment(Pos.CENTER);
 		root.setCenter(vBox);
-
-		root.setStyle("-fx-background-image: url('/KenoBackground.jpg');" +
+		newLookNum = 0;
+		String backgroundPath = "/KenoBackground" + newLookNum + ".jpg";
+		root.setStyle("-fx-background-image: url('" + backgroundPath + "');" +
 				"-fx-background-size: cover;" +
 				"-fx-background-position: left center;");
+
 		Scene scene = new Scene(root, 700, 700);
-		scene.setFill(Color.BLUE);
+
 		primaryStage.setScene(scene);
 
 		primaryStage.show();
@@ -157,22 +153,22 @@ public class JavaFXTemplate extends Application {
 		});
 
 		newLook.setOnAction(event -> {
+			newLookNum = (newLookNum + 1) % 4;
+			String newBackgroundPath = "/KenoBackground" + newLookNum + ".jpg";
+			root.setStyle("-fx-background-image: url('" + newBackgroundPath + "');" +
+					"-fx-background-size: cover;" +
+					"-fx-background-position: left center;");
+			// Randomize font
+			String[] fonts = {"Arial", "Comic Sans MS", "Verdana", "Trebuchet MS"};
+			String randomFont = fonts[newLookNum];
+			welcomeText.setFont(Font.font(randomFont, FontWeight.BOLD, 30));
 
-			root.getChildren().remove(menuBar);
-			welcomeText.setText("Change Look");
-			root.setCenter(welcomeText);
-			backButton = new Button("Back");
+			// Randomize color
+			Color[] colors = {Color.ORANGE, Color.AQUA, Color.YELLOW, Color.GREEN};
+			Color randomColor = colors[newLookNum];
+			welcomeText.setFill(randomColor);
+			welcomeText.setStroke(randomColor.darker());
 
-			backButton.setOnAction(event1 -> {
-				root.setTop(menuBar);
-				welcomeText.setText("Welcome to Keno");
-				root.setLeft(null);
-				vBox.getChildren().clear();
-				vBox.getChildren().addAll(welcomeText, playButton);
-				root.setCenter(vBox);
-			});
-			VBox vbox = new VBox(10, backButton);
-			root.setLeft(vbox);
 		});
 
 		exit.setOnAction(event -> primaryStage.close());
