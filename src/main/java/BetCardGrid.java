@@ -63,33 +63,35 @@ class BetCardGrid extends GridPane {
      * @param numSpots the number of spots on the bet card
      */
     public BetCardGrid(int numSpots) {
-        this.numSpots = numSpots; // assigning the value of the numSpots parameter to the numSpots instance variable
-        this.maxSelected = numSpots; // assigning the value of the numSpots parameter to the maxSelected instance variable
-        this.spots = new int[80]; // creating an array of 80 integers to store the numbers that the player has selected on the bet card
-        this.numSelected = 0; // assigning the value of 0 to the numSelected instance variable
+        this.numSpots = numSpots;
+        this.maxSelected = numSpots;
+        this.spots = new int[80];
+        this.numSelected = 0;
 
         // Initialize the GridPane
-        this.gridPane = new GridPane(); // creating a new GridPane object and assigning it to the gridPane instance variable
-        gridPane.setHgap(10); // setting the horizontal gap between the cells in the GridPane to 10
-        gridPane.setVgap(10); // setting the vertical gap between the cells in the GridPane to 10
+        setHgap(10); // setting the horizontal gap between the cells in the GridPane to 10
+        setVgap(10); // setting the vertical gap between the cells in the GridPane to 10
 
         // Create the bet card cells and add them to the GridPane
-        for (int i = 1; i <= 80; i++) { // looping through the numbers 1 to 80
-            Button btn = new Button(String.valueOf(i)); // creating a new Button object and assigning it to the btn variable
-            btn.setPrefSize(40, 40); // setting the preferred size of the Button object to 40 x 40
-            btn.setOnAction(event -> { // setting an ActionEvent handler for the Button object
-                int number = Integer.parseInt(btn.getText()); // creating an integer variable called number and assigning it the value of the number that the player has selected on the bet card
-                if (isSelected(number)) { // if the number that the player has selected on the bet card is already selected
-                    deselect(number); // deselect the number
-                } else { // if the number that the player has selected on the bet card is not already selected
-                    select(number); // select the number
+        for (int i = 1; i <= 80; i++) {
+            Button btn = new Button(String.valueOf(i));
+            btn.setPrefSize(40, 40);
+            btn.setStyle("-fx-background-radius: 20; -fx-padding: 5; -fx-focus-color: transparent; -fx-faint-focus-color: transparent; -fx-background-color: #ffffff");
+            btn.setOnAction(event -> {
+                int number = Integer.parseInt(btn.getText());
+                if (isSelected(number)) {
+                    deselect(number);
+                } else {
+                    select(number);
                 }
             });
-            gridPane.add(btn, (i - 1) % 10, (i - 1) / 10); // adding the Button object to the GridPane
+            this.add(btn, (i - 1) % 10, (i - 1) / 10);
         }
 
+
         // Disable all cells initially
-        disableAll(); // calling the disableAll() method
+        // TODO this is for testing only, remove later
+        // disableAll();
     }
 
     /**
@@ -145,7 +147,7 @@ class BetCardGrid extends GridPane {
      * This function disables all the cells in the bet card.
      */
     public void disableAll() {
-        for (Node node : gridPane.getChildren()) { // looping through the cells in the bet card
+        for (Node node : this.getChildren()) { // looping through the cells in the bet card
             node.setDisable(true); // disabling the cells in the bet card
         }
     }
@@ -154,7 +156,7 @@ class BetCardGrid extends GridPane {
      * This function enables all the cells in the bet card.
      */
     public void enableAll() {
-        for (Node node : gridPane.getChildren()) { // looping through the cells in the bet card
+        for (Node node : this.getChildren()) { // looping through the cells in the bet card
             node.setDisable(false); // enabling the cells in the bet card
         }
     }
@@ -175,18 +177,20 @@ class BetCardGrid extends GridPane {
      * to the given number on the bet card based on whether it is selected or not.
      */
     private void updateCell(int number, boolean selected) {
-        for (Node node : gridPane.getChildren()) { // looping through the cells in the bet card
-            if (node instanceof Button) { // if the cell is a Button object
-                Button btn = (Button) node; // casting the cell to a Button object and assigning it to the btn variable
-                if (btn.getText().equals(String.valueOf(number))) { // if the cell is the cell that the player has selected on the bet card
-                    if (selected) { // if the cell is selected
-                        btn.setStyle("-fx-background-color: #00ff00"); // set the background colour of the cell to green
-                    } else { // if the cell is not selected
-                        btn.setStyle("-fx-background-color: #ffffff"); // set the background colour of the cell to white
+        for (Node node : this.getChildren()) {
+            if (node instanceof Button) {
+                Button btn = (Button) node;
+                if (btn.getText().equals(String.valueOf(number))) {
+                    if (selected) {
+                        btn.setStyle("-fx-background-radius: 20; -fx-padding: 5; -fx-focus-color: transparent; -fx-faint-focus-color: transparent; -fx-background-color: #ffffff; -fx-border-color: #0000ff; -fx-border-width: 2; -fx-border-radius: 20; -fx-font-family: System; -fx-font-size: 12");
+                    } else {
+                        btn.setStyle("-fx-background-radius: 20; -fx-padding: 5; -fx-focus-color: transparent; -fx-faint-focus-color: transparent; -fx-background-color: #ffffff; -fx-border-color: transparent; -fx-font-family: System; -fx-font-size: 12");
                     }
                 }
             }
         }
     }
+
+
 
 }

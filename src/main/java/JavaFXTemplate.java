@@ -5,10 +5,8 @@ import javafx.animation.SequentialTransition;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -20,13 +18,11 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.StrokeType;
 import javafx.scene.text.FontWeight;
 
-/*
-UNUSED IMPORTS
 import java.util.Random;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.image.Image;
-*/
+
 
 public
 class JavaFXTemplate extends Application {
@@ -92,10 +88,18 @@ class JavaFXTemplate extends Application {
         // add play button
         Button playButton = new Button("Play"); // create play button
         playButton.setFont(new Font(30)); // set font of play button
+
+        // ----------------- KenoController -----------------
+        /*
+         * KenoController is a class that controls the Keno game.
+         * It is responsible for initializing the Keno UI,
+         * handling the user's input, and updating the Keno UI.
+         */
         playButton.setOnAction(event -> { // add event handler to play button
-            root.setCenter(null); // remove welcome text from root node of scene graph
-            //TODO: add code to start game
+            KenoController kenoController = new KenoController(); // create keno controller
+            kenoController.initializeKenoUI(root); // initialize keno UI
         });
+        // --------------------------------------------------
 
         VBox vBox = new VBox(welcomeText, playButton); // create vertical box
         vBox.setAlignment(Pos.CENTER); // set alignment of vertical box

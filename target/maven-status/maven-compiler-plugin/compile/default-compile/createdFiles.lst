@@ -1,11 +1,11 @@
 WinningsCalc.class
 KenoGame.class
 SpotsSelection.class
-WelcomeScreen.class
 GameResult.class
 JavaFXTemplate.class
 GameplayScreen.class
 DrawingSelection.class
 BetCard.class
+KenoController.class
 BetCardGrid.class
 DrawResults.class
