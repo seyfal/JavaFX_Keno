@@ -4,6 +4,7 @@ import javafx.animation.RotateTransition;
 import javafx.animation.SequentialTransition;
 import javafx.application.Application;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
@@ -18,14 +19,14 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.StrokeType;
 import javafx.scene.text.FontWeight;
 
-
 public
 class JavaFXTemplate extends Application {
     private BorderPane root; // root node of scene graph
     private Text       welcomeText; // welcome text
     private Button     backButton; // back button
-    private int        newLookNum; // number of times new-look button has been clicked
-    private boolean    isPlaying;
+    private int  newLookNum; // number of times new-look button has been clicked
+    private Node previousPage; // previous page
+
 
     public static
     void main (String[] args) { // entry point of JavaFX application
@@ -68,12 +69,11 @@ class JavaFXTemplate extends Application {
         MenuItem odds = new MenuItem("Odds of Winning"); // create odds menu item
         MenuItem newLook = new MenuItem("New Look"); // create new-look menu item
         MenuItem exit = new MenuItem("Exit"); // create exit menu item
-
-        fileMenu.getItems().addAll(rules, odds, exit); // add menu items to file menu
+        fileMenu.getItems().addAll(rules, odds, newLook, exit); // add menu items to file menu
         menuBar.getMenus().addAll(fileMenu); // add file menu to menu bar
         root.setTop(menuBar); // add menu bar to root node of scene graph
 
-// add welcome text
+        // add welcome text
         welcomeText = new Text("Welcome to Keno"); // create welcome text
         welcomeText.setFont(Font.font("Verdana", FontWeight.BOLD, 40)); // set font of welcome text
         welcomeText.setFill(Color.WHITE); // set fill color of welcome text
@@ -82,84 +82,51 @@ class JavaFXTemplate extends Application {
         welcomeText.setStrokeWidth(3); // set stroke width of welcome text
         root.setCenter(welcomeText); // add welcome text to root node of scene graph
 
-// add play button
+        // add play button
         Button playButton = new Button("Play"); // create play button
         playButton.setFont(new Font(30)); // set font of play button
-        playButton.setStyle("-fx-background-radius: 40px; " +
-                "-fx-background-color: white; " +
-                "-fx-border-color: #000000; " +
-                "-fx-border-radius: 40px; " +
-                "-fx-border-width: 3px; " +
-                "-fx-box-shadow: 10px 10px 10px rgba(0,0,0,0.3);");
 
-// add back button
-        backButton = new Button("Back");
-        backButton.setFont(new Font(20));
-
-// add event handler to new-look menu item
-        newLook.setOnAction(event -> {
-            MenuItem newItem = new MenuItem("New Item"); // create new menu item
-            fileMenu.getItems().add(newItem); // add new menu item to file menu
-        });
-
-// add event handler to play button
-        playButton.setOnAction(event -> {
-            isPlaying = true;
-            fileMenu.getItems().add(2, newLook); // add new menu item to file menu
-            root.getChildren().remove(welcomeText); // remove welcome text from root node of scene graph
+        // ----------------- KenoController -----------------
+        /*
+         * KenoController is a class that controls the Keno game.
+         * It is responsible for initializing the Keno UI,
+         * handling the user's input, and updating the Keno UI.
+         */
+        playButton.setOnAction(event -> { // add event handler to play button
             KenoController kenoController = new KenoController(); // create keno controller
             kenoController.initializeKenoUI(root); // initialize keno UI
         });
         // --------------------------------------------------
 
-        VBox vBox = new VBox(20,welcomeText, playButton); // create vertical box
+        VBox vBox = new VBox(welcomeText, playButton); // create vertical box
         vBox.setAlignment(Pos.CENTER); // set alignment of vertical box
         root.setCenter(vBox); // add vertical box to root node of scene graph
         newLookNum = 0; // initialize new-look number
         String backgroundPath = "/KenoBackground" + newLookNum + ".jpg"; // create path to background image
         root.setStyle("-fx-background-image: url('" + backgroundPath + "');" + // set background image
-                "-fx-background-size: cover;" ); // set background size
+                "-fx-background-size: cover;" + // set background size
+                "-fx-background-position: left center;"); // set background position
         Scene scene = new Scene(root, 700, 700); // create scene
         primaryStage.setScene(scene); // add scene to stage
         primaryStage.show(); // display stage
 
+        // TODO: Work on the styling and do similar for the other buttons in the menu
+        rules.setOnAction(event -> {
+            previousPage = root.getCenter();
+            root.getChildren().remove(menuBar);
+            displayRules();
+            backButton = new Button("Back");
+            backButton.setStyle("-fx-font-size: 16; -fx-min-width: 100; -fx-min-height: 40;");
 
-        // add event handlers for menu items
-        rules.setOnAction(event -> { // add event handler to odds menu item
+            backButton.setOnAction(event1 -> {
+                root.setTop(menuBar);
+                root.setLeft(null);
+                root.setCenter(previousPage);
+            });
 
-            root.getChildren().remove(menuBar); // remove menu bar from root node of scene graph
-            welcomeText.setText("Rules"); // set text of welcome text
-            root.setCenter(welcomeText); // add welcome text to root node of scene graph
-
-            backButton.setStyle("-fx-background-radius: 40px; " +
-                    "-fx-background-color: white; " +
-                    "-fx-border-color: #000000; " +
-                    "-fx-border-radius: 40px; " +
-                    "-fx-border-width: 3px; " +
-                    "-fx-box-shadow: 10px 10px 10px rgba(0,0,0,0.3);");
-            if(isPlaying){
-                backButton.setOnAction(event1 -> { // add event handler to back button
-                    root.setTop(menuBar); // add menu bar to root node of scene graph
-                    KenoController kenoController = new KenoController(); // create keno controller
-                    kenoController.initializeKenoUI(root); // initialize keno UI
-                });
-            }
-            else{
-                backButton.setOnAction(event1 -> { // add event handler to back button
-
-                    root.setTop(menuBar); // add menu bar to root node of scene graph
-                    welcomeText.setText("Welcome to Keno"); // set text of welcome text
-                    root.setLeft(null); // remove back button from root node of scene graph
-                    vBox.getChildren().clear(); // remove welcome text and play button from vertical box
-                    vBox.getChildren().addAll(welcomeText, playButton); // add welcome text and play button to vertical box
-                    root.setCenter(vBox); // add vertical box to root node of scene graph
-
-                });
-            }
-
-            VBox vbox = new VBox(10, welcomeText, backButton); // create vertical box
-            vbox.setAlignment(Pos.CENTER);
-            root.setCenter(vbox); // add vertical box to root node of scene graph
+            VBox vbox = new VBox(10, backButton);
+            vbox.setAlignment(Pos.BOTTOM_LEFT);
+            root.setLeft(vbox);
         });
 
         odds.setOnAction(event -> { // add event handler to odds menu item
@@ -167,42 +134,26 @@ class JavaFXTemplate extends Application {
             root.getChildren().remove(menuBar); // remove menu bar from root node of scene graph
             welcomeText.setText("Odds"); // set text of welcome text
             root.setCenter(welcomeText); // add welcome text to root node of scene graph
+            backButton = new Button("Back"); // create back button
 
-            backButton.setStyle("-fx-background-radius: 40px; " +
-                    "-fx-background-color: white; " +
-                    "-fx-border-color: #000000; " +
-                    "-fx-border-radius: 40px; " +
-                    "-fx-border-width: 3px; " +
-                    "-fx-box-shadow: 10px 10px 10px rgba(0,0,0,0.3);");
+            backButton.setOnAction(event1 -> { // add event handler to back button
 
-            if(isPlaying){
-                backButton.setOnAction(event1 -> { // add event handler to back button
-                    root.setTop(menuBar); // add menu bar to root node of scene graph
-                    KenoController kenoController = new KenoController(); // create keno controller
-                    kenoController.initializeKenoUI(root); // initialize keno UI
-                });
-            }
-            else{
-                backButton.setOnAction(event1 -> { // add event handler to back button
+                root.setTop(menuBar); // add menu bar to root node of scene graph
+                welcomeText.setText("Welcome to Keno"); // set text of welcome text
+                root.setLeft(null); // remove back button from root node of scene graph
+                vBox.getChildren().clear(); // remove welcome text and play button from vertical box
+                vBox.getChildren().addAll(welcomeText, playButton); // add welcome text and play button to vertical box
+                root.setCenter(vBox); // add vertical box to root node of scene graph
 
-                    root.setTop(menuBar); // add menu bar to root node of scene graph
-                    welcomeText.setText("Welcome to Keno"); // set text of welcome text
-                    root.setLeft(null); // remove back button from root node of scene graph
-                    vBox.getChildren().clear(); // remove welcome text and play button from vertical box
-                    vBox.getChildren().addAll(welcomeText, playButton); // add welcome text and play button to vertical box
-                    root.setCenter(vBox); // add vertical box to root node of scene graph
+            });
 
-                });
-            }
-
-            VBox vbox = new VBox(10, welcomeText, backButton); // create vertical box
-            vbox.setAlignment(Pos.CENTER);
-            root.setCenter(vbox); // add vertical box to root node of scene graph
+            VBox vbox = new VBox(10, backButton); // create vertical box
+            root.setLeft(vbox); // add vertical box to root node of scene graph
         });
 
         newLook.setOnAction(event -> { // add event handler to new-look menu item
 
-            newLookNum = (newLookNum + 1) % 5; // increment new-look number
+            newLookNum = (newLookNum + 1) % 4; // increment new-look number
             String newBackgroundPath = "/KenoBackground" + newLookNum + ".jpg"; // create path to background image
 
             root.setStyle("-fx-background-image: url('" + newBackgroundPath + "');" + // set background image
@@ -211,16 +162,49 @@ class JavaFXTemplate extends Application {
                     "");
 
             // Randomize font
-            String[] fonts = {"Arial", "Comic Sans MS", "Verdana", "Trebuchet MS", "Impact"}; // create array of fonts
-            welcomeText.setFont(Font.font(fonts[newLookNum], FontWeight.BOLD, 40)); // set font of welcome text
+            String[] fonts = {"Arial", "Comic Sans MS", "Verdana", "Trebuchet MS"}; // create array of fonts
+            String randomFont = fonts[newLookNum]; // get random font
+            welcomeText.setFont(Font.font(randomFont, FontWeight.BOLD, 30)); // set font of welcome text
 
             // Randomize color
-            Color[] colors = {Color.ORANGE, Color.AQUA, Color.YELLOW, Color.GREEN, Color.WHITE}; // create array of colors
-            welcomeText.setFill(colors[newLookNum]); // set fill color of welcome text
-            welcomeText.setStroke(colors[newLookNum].darker()); // set stroke color of welcome text
+            Color[] colors = {Color.ORANGE, Color.AQUA, Color.YELLOW, Color.GREEN}; // create array of colors
+            Color randomColor = colors[newLookNum]; // get random color
+            welcomeText.setFill(randomColor); // set fill color of welcome text
+            welcomeText.setStroke(randomColor.darker()); // set stroke color of welcome text
 
         });
 
         exit.setOnAction(event -> primaryStage.close()); // add event handler to exit menu item
     }
+
+    private void displayRules() {
+        VBox rulesBox = new VBox(20);
+        rulesBox.setStyle("-fx-padding: 20;");
+        Text title = new Text("Keno Rules:");
+        title.setFont(Font.font("Verdana", FontWeight.BOLD, 24));
+        rulesBox.getChildren().add(title);
+
+        String[] rulesText = {
+                "1. Select the number of spots you want to play, from 1 to 10.",
+                "2. Choose your bet amount.",
+                "3. Pick the numbers you want to play, from 1 to 80.",
+                "4. The game will then draw 20 random numbers.",
+                "5. You will win if your selected numbers match the drawn numbers.",
+                "6. The more numbers you match, the higher your prize.",
+        };
+
+        for (String rule : rulesText) {
+            Text ruleText = new Text(rule);
+            ruleText.setFont(Font.font("Verdana", FontWeight.NORMAL, 18));
+            ruleText.setWrappingWidth(600);
+            rulesBox.getChildren().add(ruleText);
+        }
+
+        ScrollPane scrollPane = new ScrollPane(rulesBox);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setStyle("-fx-background-color: transparent; -fx-padding: 20;");
+        root.setCenter(scrollPane);
+    }
+
+
 }
