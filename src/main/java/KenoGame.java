@@ -48,21 +48,27 @@ public class KenoGame extends JavaFXTemplate{
         * @param selectedNumbers numbers selected by user in the bet card
         * @param drawnNumbers numbers drawn in each drawing ( winning numbers )
      */
-    public KenoGame(int numDrawings, int numSpots) {
+    private BetCardGrid betCardGrid;
+    private Label resultsLabel;
+
+    public KenoGame(int numDrawings, int numSpots, BetCardGrid betCardGrid, Label resultsLabel) {
         this.numDrawings = numDrawings;
         this.numSpots = numSpots;
         this.totalWinnings = 0;
         this.selectedNumbers = new ArrayList<>();
         this.drawnNumbers = new ArrayList<>();
+        this.betCardGrid = betCardGrid;
+        this.resultsLabel = resultsLabel;
     }
 
     /*
         * Select number of spots
         * @param numSpots number of spots
      */
-    public int playDrawing(GridPane betCard, Label resultsLabel) {
+    public int playDrawing() {
         // Clear previously drawn numbers
         drawnNumbers.clear();
+
         // Draw 20 unique numbers between 1 and 80
         List<Integer> possibleNumbers = new ArrayList<>();
         for (int i = 1; i <= 80; i++) {
@@ -72,58 +78,32 @@ public class KenoGame extends JavaFXTemplate{
         for (int i = 0; i < 20; i++) {
             drawnNumbers.add(possibleNumbers.get(i));
         }
+
+        // TODO - need to get the selected numbers from the bet card
+
+        // Update the appearance of the BetButtons based on the drawn numbers
+        betCardGrid.updateButtons(drawnNumbers, selectedNumbers);
+
         // Calculate winnings based on selected numbers and drawn numbers
-        int winnings = calculateWinnings();
-        totalWinnings += winnings;
+        // int winnings = calculateWinnings();
+        // TODO - fix the Winnings calculation - it's not working
+        // totalWinnings += winnings;
+
         // Display results to user
-        resultsLabel.setText(String.format("Matched %d numbers! Won $%d on this drawing.", selectedNumbers.size(), winnings));
+        // resultsLabel.setText(String.format("Matched %d numbers! Won $%d on this drawing.", selectedNumbers.size(), winnings));
+
         // Disable bet card for this drawing
-        disableBetCard(betCard);
+        betCardGrid.setDisable(true);
+
         // Return winnings
-        return winnings;
+        // return winnings;
+        return 0;
     }
 
-    private int calculateWinnings() {
-        int[] spotWinnings = {0, 2, 12, 48, 180}; // Winnings for each number of spots (1-4)
-        int[] spotHits = new int[5]; // Number of spots hit (0-4)
-        for (int number : selectedNumbers) {
-            if (drawnNumbers.contains(number)) {
-                spotHits[numSpots]++;
-            }
-        }
-        return spotWinnings[numSpots] * spotHits[numSpots];
-    }
-
-    private void disableBetCard(GridPane betCard) {
-        for (int i = 1; i <= 80; i++) {
-            Button button = (Button) betCard.lookup("#button" + i);
-
-            /*
-                It declares a variable called "button" of type "Button".
-                It is using the "lookup" method of the "betCard" object to search for a child node with the ID "button" concatenated with the value of "i".
-                The "lookup" method returns a "Node" object, which is then casted to type "Button" and assigned to the "button" variable.
-             */
-
-            button.setDisable(true);
-            if (selectedNumbers.contains(i)) {
-                button.getStyleClass().add("selected");
-            }
-        }
-    }
-
-    /*
-        * Reset bet card and selected numbers
-        * @param numDrawings number of drawings
-     */
-    private void clearBetCards()
-    {
+    // Reset bet card and selected numbers
+    public void clearBetCard() {
         selectedNumbers.clear();
-    }
-
-
-
-    public void setSelectedNumbers(List<Integer> selectedNumbers) {
-        this.selectedNumbers = selectedNumbers;
+        betCardGrid.resetButtons();
     }
 
     public int getNumDrawings() {
@@ -134,12 +114,16 @@ public class KenoGame extends JavaFXTemplate{
         return numSpots;
     }
 
+    public void setNumSpots(int numSpots) {
+        this.numSpots = numSpots;
+    }
+
     public int getTotalWinnings() {
         return totalWinnings;
     }
 
-    public
-    String getBalance () {
-        return String.format("$%d", totalWinnings);
+    public void resetSelection() {
+        selectedNumbers.clear();
     }
+
 }

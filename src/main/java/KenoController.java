@@ -6,6 +6,49 @@ import javafx.scene.layout.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+/*
+ *The KenoController class helps create the UI layout for a Keno game. The class consists of methods
+ * that create and organize various UI components, such as a winnings column, a bet card grid, and
+ * several button blocks. The UI is built using JavaFX layouts, including BorderPane, VBox, HBox, and GridPane.
+ *
+ * Here is an overview of the main components of the class:
+ *
+ * initializeKenoUI(BorderPane root): This method sets up the main Keno UI by placing the winnings
+ * column, bet card grid, and button layout inside the given BorderPane.
+ *
+ * createWinningsColumn(): Creates a VBox containing the winnings information for each number
+ * of spots (1-10). Each row displays the number of spots and the corresponding winnings.
+ *
+ * createButtonLayout(): Creates an HBox that contains three button blocks: spots, draws,
+ * and auto-play. Each block is placed in a VBox.
+ *
+ * createAutoPlayBox(): Creates a VBox with two buttons, "Auto" and "Play", for the auto-play functionality.
+ *
+ * createButtonBlock(String title, int[][] numbers): A generic method for creating button blocks
+ * with a title and a grid of buttons based on the provided numbers array.
+ *
+ * To use this class in a JavaFX application, you can create a new instance of KenoController and call
+ * the initializeKenoUI(BorderPane root) method. The method takes a BorderPane as an argument, which
+ * will serve as the root node of your application's layout.
+ *
+ *    Here is an example:
+ *
+ *         // Create a new instance of KenoController
+ *         KenoController kenoController = new KenoController();
+ *
+ *         // Create a BorderPane to serve as the root node of the layout
+ *         BorderPane root = new BorderPane();
+ *
+ *         // Initialize the Keno UI with the root node
+ *         kenoController.initializeKenoUI(root);
+ *
+ *         // Create and display the scene
+ *         Scene scene = new Scene(root, 800, 600);
+ *         primaryStage.setScene(scene);
+ *         primaryStage.setTitle("Keno Game Example");
+ *         primaryStage.show();
+ *
+ */
 public class KenoController {
 
     public void initializeKenoUI(BorderPane root) {

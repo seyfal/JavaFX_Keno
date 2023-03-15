@@ -11,6 +11,44 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
+/*
+ * BetButton is a custom button class for betting applications, such as lottery games.
+ * Each BetButton displays a number, and the button has different states and visual
+ * appearances based on its current state.
+ *
+ * BetButton extends the JavaFX Button class and adds a Circle and Text elements
+ * to create a custom appearance for the button. BetButton also provides methods
+ * for updating the state of the button, which affects its visual appearance.
+ *
+ * Usage:
+ * BetButton betButton = new BetButton(number);
+ * betButton.setOnAction(event -> {
+ *     // Perform actions based on the button click
+ * });
+ *
+ * When the button is clicked, we toggle the selection state of the button using the
+ * toggleSelection() method. This method switches between the UNSELECTED and SELECTED
+ * states and updates the button's appearance accordingly.
+ *
+ * You can also manually set the state of the button using the setState() method.
+ * For example, you can set the button to a correct or incorrect state by passing
+ * BetButton.ButtonState.CORRECT or BetButton.ButtonState.INCORRECT as arguments
+ * to the setState() method. In the example above, you can replace the toggleSelection()
+ * call with betButton.setState(BetButton.ButtonState.CORRECT); to set the button to the
+ * correct state when clicked.
+ *
+ * Here's a summary of the available states and their corresponding visual appearances:
+ *
+        UNSELECTED: Neutral color with black text.
+        SELECTED: Blue color with white text.
+        DRAWN: Light gray color with black text.
+        CORRECT: Green color with white text.
+        INCORRECT: Red color with white text.
+ *
+ * Use getNumber() to get the number displayed on the button.
+ * Use getState() to get the current state of the button.
+ *
+ */
 public class BetButton extends Button {
     private int number;
     private ButtonState state;
@@ -19,9 +57,10 @@ public class BetButton extends Button {
     private StackPane stack;
     private RadialGradient neutralGradient, selectedGradient, drawnGradient;
 
-    public BetButton(int number) {
-        this.number = number;
-        this.state = ButtonState.UNSELECTED;
+    public BetButton(int number) { // Constructor
+
+        this.number = number; // Set the number of the button
+        this.state = ButtonState.UNSELECTED; // Set the state of the button to unselected
 
         neutralGradient = new RadialGradient(
                 0, 0, 0.5, 0.5, 1, true, javafx.scene.paint.CycleMethod.NO_CYCLE,
@@ -39,35 +78,27 @@ public class BetButton extends Button {
                 new Stop(1, Color.web("#cccccc"))
         );
 
-        circle = new Circle(20);
-        circle.setFill(neutralGradient);
+        circle = new Circle(20); // Create a circle with a radius of 20
+        circle.setFill(neutralGradient); // Set the color of the circle to neutral
 
-        DropShadow dropShadow = new DropShadow();
-        dropShadow.setRadius(10);
-        dropShadow.setOffsetX(2);
-        dropShadow.setOffsetY(2);
-        dropShadow.setColor(Color.rgb(50, 50, 50, 0.7));
-        circle.setEffect(dropShadow);
+        DropShadow dropShadow = new DropShadow(); // Create a drop shadow effect
+        dropShadow.setRadius(10); // Set the radius of the drop shadow
+        dropShadow.setOffsetX(2); // Set the offset of the drop shadow
+        dropShadow.setOffsetY(2); // Set the offset of the drop shadow
+        dropShadow.setColor(Color.rgb(50, 50, 50, 0.7)); // Set the color of the drop shadow
+        circle.setEffect(dropShadow); // Set the effect of the circle to the drop shadow
 
-        text = new Text(Integer.toString(number));
-        text.setFont(new Font(14));
-        text.setFill(Color.BLACK);
+        text = new Text(Integer.toString(number)); // Create a text object with the number of the button
+        text.setFont(new Font(14)); // Set the font of the text
+        text.setFill(Color.BLACK); // Set the color of the text
 
-        stack = new StackPane(circle, text);
-        setGraphic(stack);
-        setStyle("-fx-background-color: transparent; -fx-padding: 0;");
+        stack = new StackPane(circle, text); // Create a stack pane with the circle and the text
+        setGraphic(stack); // Set the graphic of the button to the stack pane
+        setStyle("-fx-background-color: transparent; -fx-padding: 0;"); // Set the style of the button
 
-        setOnMouseClicked(this::onMouseClicked);
+        setOnMouseClicked(this::onMouseClicked); // Add an event handler for the mouse click event
+        setOnAction(event -> toggleSelection()); // Add an event handler for the action event
 
-        setOnAction(event -> toggleSelection());
-
-//        setOnAction(event -> {
-//            if (isSelected(number)) {
-//                deselect(number);
-//            } else if (numSelected < maxSelected) {
-//                select(number);
-//            }
-//        });
     }
 
     private void onMouseClicked(MouseEvent event) {
@@ -80,8 +111,6 @@ public class BetButton extends Button {
         st.setCycleCount(2);
         st.setAutoReverse(true);
         st.play();
-
-        // Other code for button state changes...
     }
 
     public void toggleSelection() {
@@ -121,10 +150,10 @@ public class BetButton extends Button {
     public int getNumber() {
         return number;
     }
-
     public ButtonState getState() {
         return state;
     }
+    public Button getButton() { return this; }
 
     public void setState(ButtonState state) {
         this.state = state;
