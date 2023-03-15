@@ -60,6 +60,14 @@ public class BetButton extends Button {
         setOnMouseClicked(this::onMouseClicked);
 
         setOnAction(event -> toggleSelection());
+
+//        setOnAction(event -> {
+//            if (isSelected(number)) {
+//                deselect(number);
+//            } else if (numSelected < maxSelected) {
+//                select(number);
+//            }
+//        });
     }
 
     private void onMouseClicked(MouseEvent event) {

@@ -77,8 +77,8 @@ class BetCardGrid extends GridPane {
                 number++;
             }
         }
+        // disableAll();
     }
-
 
     /**
      * This function checks if the given number is already selected on the bet card.
@@ -177,6 +177,12 @@ class BetCardGrid extends GridPane {
         }
     }
 
+    /**
+     * This function sets the maximum number of spots that can be selected on the bet card.
+     */
+    public void setMaxSpots(int maxSpots) {
+        this.maxSelected = maxSpots;
+    }
 
 
 }
