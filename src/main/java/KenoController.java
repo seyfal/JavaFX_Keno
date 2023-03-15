@@ -1,3 +1,4 @@
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -49,20 +50,35 @@ import javafx.scene.layout.VBox;
  *         primaryStage.show();
  *
  */
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.*;
+import java.util.List;
+
 public class KenoController {
 
-    public void initializeKenoUI(BorderPane root) {
+    private BetCardGrid                   betCardGrid; // Assuming you have implemented the BetCardGrid class
+    private SimpleObjectProperty<Integer> selectedSpots = new SimpleObjectProperty<>();
+    private SimpleObjectProperty<Integer> selectedDraws = new SimpleObjectProperty<>();
+
+
+    public
+    void initializeKenoUI (BorderPane root, KenoGame kenoGame) {
+
+        betCardGrid = new BetCardGrid(8, 10); // Assuming you have implemented the BetCardGrid class
+
         VBox winningsColumn = createWinningsColumn();
         root.setLeft(winningsColumn);
 
-        BetCardGrid betCardGrid = new BetCardGrid(8, 10);
         winningsColumn.prefHeightProperty().bind(betCardGrid.heightProperty());
 
         HBox topLayout = new HBox(20);
         topLayout.setAlignment(Pos.CENTER);
         topLayout.getChildren().addAll(winningsColumn, betCardGrid);
 
-        HBox buttonLayout = createButtonLayout();
+        HBox buttonLayout = createButtonLayout(kenoGame);
 
         VBox mainLayout = new VBox(30);
         mainLayout.getChildren().addAll(topLayout, buttonLayout);
@@ -72,7 +88,8 @@ public class KenoController {
         root.setCenter(mainLayout);
     }
 
-    private VBox createWinningsColumn() {
+    private
+    VBox createWinningsColumn () {
         VBox winningsColumn = new VBox(10);
         winningsColumn.setSpacing(10);
         winningsColumn.setPadding(new Insets(10, 10, 10, 10));
@@ -91,10 +108,11 @@ public class KenoController {
         return winningsColumn;
     }
 
-    private HBox createButtonLayout() {
-        VBox spotsBlock = createButtonBlock("Spots", new int[][]{{1, 4}, {8, 10}});
-        VBox drawsBlock = createButtonBlock("Draws", new int[][]{{1, 2}, {3, 4}});
-        VBox autoPlayBox = createAutoPlayBox();
+    private
+    HBox createButtonLayout (KenoGame kenoGame) {
+        VBox spotsBlock = createButtonBlock("Spots", new int[][]{{1, 4}, {8, 10}}, kenoGame);
+        VBox drawsBlock = createButtonBlock("Draws", new int[][]{{1, 2}, {3, 4}}, kenoGame);
+        VBox autoPlayBox = createAutoPlayBox(kenoGame);
 
         HBox buttonLayout = new HBox(20);
         buttonLayout.setAlignment(Pos.CENTER);
@@ -107,9 +125,15 @@ public class KenoController {
         return buttonLayout;
     }
 
-    private VBox createAutoPlayBox() {
+    private VBox createAutoPlayBox(KenoGame kenoGame) {
         Button autoButton = new CustomButton("Auto");
         Button playButton = new CustomButton("Play");
+        playButton.setOnAction(event -> {
+            List<Integer> selectedNumbers = betCardGrid.getSelectedNumbers();
+            int matchedNumbers = kenoGame.playDrawing(selectedNumbers);
+            int winnings = kenoGame.calculateWinnings(matchedNumbers);
+            kenoGame.setTotalWinnings(kenoGame.getTotalWinnings() + winnings);
+        });
 
         VBox autoPlayBox = new VBox(10);
         autoPlayBox.setAlignment(Pos.CENTER);
@@ -122,7 +146,7 @@ public class KenoController {
         return autoPlayBox;
     }
 
-    private VBox createButtonBlock(String title, int[][] numbers) {
+    private VBox createButtonBlock(String title, int[][] numbers, KenoGame kenoGame) {
         Label blockTitle = new Label(title);
         blockTitle.setStyle("-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #333;");
         blockTitle.setMaxWidth(Double.MAX_VALUE);
@@ -135,6 +159,22 @@ public class KenoController {
         for (int i = 0; i < numbers.length; i++) {
             for (int j = 0; j < numbers[i].length; j++) {
                 Button button = new CustomButton(Integer.toString(numbers[i][j]));
+
+                if (title.equals("Spots")) {
+                    button.setOnAction(event -> {
+                        int numSpots = Integer.parseInt(button.getText());
+                        selectedSpots.set(numSpots); // Update the selectedSpots property
+                        kenoGame.setNumSpots(numSpots);
+                        betCardGrid.enableButtons(true);
+                    });
+                } else if (title.equals("Draws")) {
+                    button.setOnAction(event -> {
+                        int numDraws = Integer.parseInt(button.getText());
+                        selectedDraws.set(numDraws); // Update the selectedDraws property
+                        kenoGame.setNumDraws(numDraws);
+                    });
+                }
+
                 buttonGrid.add(button, j, i);
             }
         }
@@ -145,6 +185,17 @@ public class KenoController {
 
         return buttonBlock;
     }
+
+    // TODO
+    public KenoController() {
+        selectedSpots.addListener((obs, oldValue, newValue) -> {
+            betCardGrid.setMaxSpots(newValue); // Set the max spots for BetCardGrid
+            betCardGrid.resetButtons(); // Clear the BetCardGrid
+        });
+
+        selectedDraws.addListener((obs, oldValue, newValue) -> {
+            // Perform any action when the selectedDraws value changes
+        });
+    }
+
 }
-
-

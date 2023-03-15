@@ -1,7 +1,7 @@
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
-
+import java.util.ArrayList;
 import java.util.List;
 
 /*
@@ -31,11 +31,14 @@ import java.util.List;
  */
 class BetCardGrid extends GridPane {
 
-    /**
-     * This constructor initializes the instance variables for the BetCardGrid object,
-     * creates the GridPane and adds Button objects to it for each of the numbers in the bet card.
-     * The Button objects are set up with ActionEvent handlers to allow the player to select and
-     * deselect numbers. Finally, all cells in the GridPane are initially disabled.
+    private int maxSpots; // Maximum number of spots that can be selected
+
+    /*
+     * Description: Initializes the instance variables, creates the GridPane, and adds BetButton
+     * objects for each number in the bet card. The buttons are set up with event handlers for
+     * selecting and deselecting numbers. All cells in the GridPane are initially disabled.
+     *
+     * Application: Creates a new instance of BetCardGrid with the specified number of rows and columns.
      */
     public BetCardGrid(int rows, int columns) {
         setHgap(12); // Increase horizontal spacing between balls
@@ -50,27 +53,48 @@ class BetCardGrid extends GridPane {
                 number++;
             }
         }
-        // disable all cells in the grid initially
-        setDisable(true);
     }
 
-    /**
-     * This function creates a BetButton object for the given number.
-     * @return BetButton
+    /*
+     * Private method
+     *
+     * Description: Creates a BetButton object for the given number.
+     *
+     * Application: Used internally in the constructor to create BetButtons for each number in the bet card.
      */
     private BetButton createBetButton(int number) {
-        return new BetButton(number);
+        BetButton betButton = new BetButton(number);
+
+        betButton.setOnAction(event -> {
+            BetButton.ButtonState currentState = betButton.getState();
+
+            if (currentState == BetButton.ButtonState.UNSELECTED && getSelectedNumbers().size() < maxSpots) {
+                betButton.setState(BetButton.ButtonState.SELECTED);
+            } else if (currentState == BetButton.ButtonState.SELECTED) {
+                betButton.setState(BetButton.ButtonState.UNSELECTED);
+            }
+        });
+
+        return betButton;
     }
 
-    /**
-     * This function sets the maximum number of spots that can be selected on the bet card.
+
+    /*
+     * Public method
+     *
+     * Description: Sets the maximum number of spots that can be selected on the bet card.
      */
     public void setMaxSpots(int maxSpots) {
-        // TODO - implement this function
+        this.maxSpots = maxSpots;
     }
 
-    /**
-     * This function resets the state of all BetButtons in the grid.
+
+    /*
+     * Public method
+     *
+     * Description: Resets the state of all BetButtons in the grid to unselected.
+     *
+     * Application: Resets the BetCardGrid to its initial state, clearing any selected buttons.
      */
     public void resetButtons() {
         for (Node node : getChildren()) {
@@ -81,6 +105,15 @@ class BetCardGrid extends GridPane {
         }
     }
 
+    /*
+     * Public method
+     *
+     * Description: Updates the state of BetButtons based on the drawn and selected numbers.
+     * Sets the button state to correct, drawn, incorrect, or unselected as appropriate.
+     *
+     * Application: Visualizes the results of a game, showing which numbers were drawn,
+     * which were selected, and whether the selections were correct or not.
+     */
     public void updateButtons(List<Integer> drawnNumbers, List<Integer> selectedNumbers) {
         for (Node node : getChildren()) {
             if (node instanceof BetButton) {
@@ -100,7 +133,14 @@ class BetCardGrid extends GridPane {
         }
     }
 
-    public void enableCells(boolean enable) {
+    /*
+     * Public method
+     *
+     * Description: Enables or disables all BetButtons in the grid based on the input value.
+     *
+     * Application: Allows you to enable or disable user interaction with the BetCardGrid.
+     */
+    public void enableButtons(boolean enable) {
         for (Node node : getChildren()) {
             if (node instanceof BetButton) {
                 BetButton betButton = (BetButton) node;
@@ -109,5 +149,25 @@ class BetCardGrid extends GridPane {
         }
     }
 
+    /*
+     * Public method
+     *
+     * Description: Retrieves a list of selected numbers from the BetCardGrid based on the current
+     * state of the BetButtons.
+     *
+     * Application: Returns the user's current selections to be used in gameplay or for display purposes.
+     */
+    public List<Integer> getSelectedNumbers() {
+        List<Integer> selectedNumbers = new ArrayList<>();
+        for (Node node : getChildren()) {
+            if (node instanceof BetButton) {
+                BetButton betButton = (BetButton) node;
+                if (betButton.getState() == BetButton.ButtonState.SELECTED) {
+                    selectedNumbers.add(betButton.getNumber());
+                }
+            }
+        }
+        return selectedNumbers;
+    }
 
 }

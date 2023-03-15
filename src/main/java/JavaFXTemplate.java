@@ -92,8 +92,9 @@ class JavaFXTemplate extends Application {
          * handling the user's input, and updating the Keno UI.
          */
         playButton.setOnAction(event -> { // add event handler to play button
-            KenoController kenoController = new KenoController(); // create keno controller
-            kenoController.initializeKenoUI(root); // initialize keno UI
+            KenoGame kenoGame = new KenoGame(); // first create a KenoGame object
+            KenoController kenoController = new KenoController(); // then create a KenoController object
+            kenoController.initializeKenoUI(root, kenoGame); // initialize the Keno UI and pass the root node of the scene graph and the KenoGame object to the KenoController object
         });
         // --------------------------------------------------
 
