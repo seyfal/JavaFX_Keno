@@ -12,6 +12,44 @@ import java.util.Collections;
 import javafx.scene.Node;
 import java.util.List;
 
+/**
+ * @author:  Seyfal Sultanov
+ * @version: 2.0
+ * @date:    2023-03-15
+ *
+ * @description:
+ *
+ * The KenoController class is responsible for managing the user interface of a Keno game application,
+ * and it interacts with other classes to control the game's logic and visuals. Here is a bird's-eye
+ * view of the class and its interactions:
+ *
+ * KenoController initializes and sets up the Keno game's user interface using the
+ * initializeKenoUI(BorderPane root, KenoGame kenoGame) method. It creates and positions
+ * the different UI components (like the bet card grid, winnings column, buttons for spots
+ * and draws, and the auto-play feature) within the main BorderPane layout provided as the
+ * root parameter. It uses the KenoGame object passed as the kenoGame parameter to manage the game's logic.
+ *
+ * KenoController interacts with the BetCardGrid class, which is responsible for managing the grid of buttons
+ * that players use to place bets. The controller configures and controls the state of the bet card grid, including
+ * enabling and disabling buttons, setting the maximum number of spots, and resetting the grid when necessary.
+ *
+ * The class uses the KenoGame object to manage the game's logic, like the number of spots selected by the player,
+ * the number of draws, and calculating the winnings based on matched numbers.
+ *
+ * KenoController uses various helper methods to create different UI components, such as createWinningsColumn(),
+ * createButtonLayout(KenoGame kenoGame), createAutoPlayBox(KenoGame kenoGame), and
+ * createButtonBlock(String title, int[][] numbers, KenoGame kenoGame). These methods are called
+ * internally to set up the interface and are not meant to be used directly by users.
+ *
+ * The class uses property listeners to react to changes in the number of selected spots and draws.
+ * When the number of selected spots changes, the listener sets the maximum spots for the BetCardGrid
+ * and resets the grid. When the number of selected draws changes, the listener can be used to perform
+ * additional actions if necessary.
+ *
+ * In summary, the KenoController class serves as a bridge between the user interface and the game's logic,
+ * managing the UI components and interacting with the KenoGame and BetCardGrid classes to control the game's
+ * flow and state.
+ */
 public class KenoController {
 
     // An instance of the BetCardGrid class that displays the grid of numbers for the user to make bets on.
