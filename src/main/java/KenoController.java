@@ -4,6 +4,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+
+import java.util.ResourceBundle;
 
 public class KenoController {
     public void initializeKenoUI(BorderPane root) {
@@ -21,27 +25,62 @@ public class KenoController {
         root.setLeft(winningsColumn);
 
         // Create bet card grid (center)
-        BetCardGrid betCardGrid = new BetCardGrid(10);
-        betCardGrid.setStyle("-fx-background-color: white;");
-        betCardGrid.setPadding(new Insets(20));
-        root.setCenter(betCardGrid);
+        BetCardGrid betCardGrid = new BetCardGrid(8, 10);
 
-        // Create control buttons (bottom)
-        HBox controls = new HBox(20);
-        controls.setSpacing(20);
-        controls.setPadding(new Insets(10));
-        controls.setAlignment(Pos.CENTER);
+        // Spots and Draws blocks
+        VBox spotsBlock = createButtonBlock("Spots", new int[][]{{1, 4}, {8, 10}});
+        VBox drawsBlock = createButtonBlock("Draws", new int[][]{{1, 2}, {3, 4}});
 
-        VBox spotsButtons = new VBox(5);
-        spotsButtons.getChildren().addAll(new Button("1 Spot"), new Button("4 Spots"), new Button("8 Spots"), new Button("10 Spots"));
-
-        VBox drawsButtons = new VBox(5);
-        drawsButtons.getChildren().addAll(new Button("1 Draw"), new Button("2 Draws"), new Button("3 Draws"), new Button("4 Draws"));
-
+        // Auto and Play buttons
         Button autoButton = new Button("Auto");
         Button playButton = new Button("Play");
 
-        controls.getChildren().addAll(spotsButtons, drawsButtons, autoButton, playButton);
-        root.setBottom(controls);
+        // Add Auto and Play buttons to a horizontal box
+        HBox autoPlayBox = new HBox(10);
+        autoPlayBox.setAlignment(Pos.CENTER);
+        autoPlayBox.getChildren().addAll(autoButton, playButton);
+
+        // Combine Spots, Draws, and Auto/Play buttons in a horizontal layout
+        HBox buttonLayout = new HBox(20);
+        buttonLayout.setAlignment(Pos.CENTER);
+        buttonLayout.getChildren().addAll(spotsBlock, drawsBlock, autoPlayBox);
+
+        // Add the button layout below the BetCardGrid
+        VBox mainLayout = new VBox(10);
+        mainLayout.getChildren().addAll(betCardGrid, buttonLayout);
+        mainLayout.setAlignment(Pos.CENTER);
+
+        // Set the main layout and winningsColumn in an HBox
+        HBox combinedLayout = new HBox(20);
+        combinedLayout.setAlignment(Pos.CENTER);
+        combinedLayout.getChildren().addAll(winningsColumn, mainLayout);
+
+        // Set the combined layout as the center of the root
+        root.setCenter(combinedLayout);
+
     }
+
+    private VBox createButtonBlock(String title, int[][] numbers) {
+        Label blockTitle = new Label(title);
+
+        GridPane buttonGrid = new GridPane();
+        buttonGrid.setHgap(10);
+        buttonGrid.setVgap(10);
+
+        for (int i = 0; i < numbers.length; i++) {
+            for (int j = 0; j < numbers[i].length; j++) {
+                Button button = new Button(Integer.toString(numbers[i][j]));
+                buttonGrid.add(button, j, i);
+            }
+        }
+
+        VBox buttonBlock = new VBox(10);
+        buttonBlock.setAlignment(Pos.CENTER);
+        buttonBlock.getChildren().addAll(blockTitle, buttonGrid);
+
+        return buttonBlock;
+    }
+
+
+
 }

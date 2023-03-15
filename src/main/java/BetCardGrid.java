@@ -1,17 +1,17 @@
+import javafx.animation.ScaleTransition;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.GridPane;
-
-//import javafx.scene.paint.Color;
-//import javafx.scene.shape.Circle;
-//import javafx.scene.shape.Rectangle;
-//import javafx.scene.text.Font;
-//import javafx.scene.text.FontWeight;
-//import javafx.scene.text.Text;
-//import javafx.scene.text.TextAlignment;
-//import javafx.scene.input.MouseEvent;
-//import javafx.event.EventHandler;
-
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.RadialGradient;
+import javafx.scene.paint.Stop;
+import javafx.scene.shape.Circle;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.util.Duration;
 
 /*
  BetCardGrid is a JavaFX GridPane that displays a bet card with 80 numbers. The player can select numbers on the bet
@@ -51,6 +51,8 @@ class BetCardGrid extends GridPane {
     private int numSelected; // the number of spots that the player has currently selected
     private int maxSelected; // the maximum number of spots that the player is allowed to select based on their initial choice of numSpots
     private GridPane gridPane; // the JavaFX GridPane that will be used to display the bet card
+//    private static final int ROWS = 10; // the number of rows in the bet card grid
+//    private static final int COLS = 8; // the number of columns in the bet card grid
 
     // functions:
 
@@ -60,39 +62,23 @@ class BetCardGrid extends GridPane {
      * The Button objects are set up with ActionEvent handlers to allow the player to select and
      * deselect numbers. Finally, all cells in the GridPane are initially disabled.
      *
-     * @param numSpots the number of spots on the bet card
      */
-    public BetCardGrid(int numSpots) {
-        this.numSpots = numSpots;
-        this.maxSelected = numSpots;
-        this.spots = new int[80];
-        this.numSelected = 0;
 
-        // Initialize the GridPane
-        setHgap(10); // setting the horizontal gap between the cells in the GridPane to 10
-        setVgap(10); // setting the vertical gap between the cells in the GridPane to 10
+    public BetCardGrid(int rows, int columns) {
+        setHgap(12); // Increase horizontal spacing between balls
+        setVgap(12); // Increase vertical spacing between balls
+        setAlignment(Pos.CENTER);
+        int number = 1;
 
-        // Create the bet card cells and add them to the GridPane
-        for (int i = 1; i <= 80; i++) {
-            Button btn = new Button(String.valueOf(i));
-            btn.setPrefSize(40, 40);
-            btn.setStyle("-fx-background-radius: 20; -fx-padding: 5; -fx-focus-color: transparent; -fx-faint-focus-color: transparent; -fx-background-color: #ffffff");
-            btn.setOnAction(event -> {
-                int number = Integer.parseInt(btn.getText());
-                if (isSelected(number)) {
-                    deselect(number);
-                } else {
-                    select(number);
-                }
-            });
-            this.add(btn, (i - 1) % 10, (i - 1) / 10);
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                BetButton betButton = new BetButton(number);
+                add(betButton, j, i);
+                number++;
+            }
         }
-
-
-        // Disable all cells initially
-        // TODO this is for testing only, remove later
-        // disableAll();
     }
+
 
     /**
      * This function checks if the given number is already selected on the bet card.

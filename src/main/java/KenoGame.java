@@ -138,4 +138,8 @@ public class KenoGame extends JavaFXTemplate{
         return totalWinnings;
     }
 
+    public
+    String getBalance () {
+        return String.format("$%d", totalWinnings);
+    }
 }
