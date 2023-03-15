@@ -7,7 +7,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -37,7 +36,7 @@ class JavaFXTemplate extends Application {
     @Override
     public
         // TODO: Take a look at the exception as it is never thrown in the mentioned method
-    void start (Stage primaryStage) throws Exception { // called by launch()
+    void start (Stage primaryStage) { // called by launch()
         primaryStage.setTitle("Welcome to JavaFX"); // set title of window
 
         // @
