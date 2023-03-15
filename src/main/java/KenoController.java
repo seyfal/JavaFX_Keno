@@ -6,6 +6,11 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import java.util.stream.IntStream;
+import java.util.stream.Collectors;
+import java.util.Collections;
+import javafx.scene.Node;
+import java.util.List;
 
 /*
  *The KenoController class helps create the UI layout for a Keno game. The class consists of methods
@@ -50,12 +55,7 @@ import javafx.scene.layout.VBox;
  *         primaryStage.show();
  *
  */
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.*;
-import java.util.List;
+
 
 public class KenoController {
 
@@ -143,6 +143,35 @@ public class KenoController {
         VBox.setVgrow(emptyBoxAboveButtons, Priority.ALWAYS);
         autoPlayBox.getChildren().add(0, emptyBoxAboveButtons);
 
+        autoButton.setOnAction(event -> {
+            int numSpots = selectedSpots.get(); // Get the number of spots chosen
+            betCardGrid.resetButtons(); // Clear the BetCardGrid
+
+            // Generate a list of numbers from 1 to 80
+            List<Integer> numbers = IntStream.rangeClosed(1, 80).boxed().collect(Collectors.toList());
+
+            // Shuffle the list of numbers
+            Collections.shuffle(numbers);
+
+            // Select the first numSpots elements as the random spots
+            List<Integer> randomSpots = numbers.subList(0, numSpots);
+
+            // Simulate pressing the buttons on the BetCardGrid
+            for (Node node : betCardGrid.getChildren()) {
+                if (node instanceof BetButton) {
+                    BetButton betButton = (BetButton) node;
+                    int buttonNumber = betButton.getNumber();
+                    if (randomSpots.contains(buttonNumber)) {
+                        betButton.fire(); // Press the button
+                    }
+                }
+            }
+        });
+
+        playButton.setOnAction(event -> {
+            // TODO - Implement the play button
+        });
+
         return autoPlayBox;
     }
 
@@ -186,7 +215,7 @@ public class KenoController {
         return buttonBlock;
     }
 
-    // TODO
+    // TODO - Implement the KenoController class draw button action
     public KenoController() {
         selectedSpots.addListener((obs, oldValue, newValue) -> {
             betCardGrid.setMaxSpots(newValue); // Set the max spots for BetCardGrid
