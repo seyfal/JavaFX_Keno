@@ -11,6 +11,8 @@ import java.util.stream.Collectors;
 import java.util.Collections;
 import javafx.scene.Node;
 import java.util.List;
+import javafx.scene.layout.Priority;
+import java.util.ArrayList;
 
 /**
  * @author:  Seyfal Sultanov
@@ -61,6 +63,10 @@ public class KenoController {
     // A property that holds the currently selected number of draws for the game.
     private SimpleObjectProperty<Integer> selectedDraws = new SimpleObjectProperty<>();
 
+    // A list of labels that displays the winnings for each number of spots.
+    private List<Label> winningsLabels = new ArrayList<>();
+
+
 
     /**
      * A method that initializes the user interface components, such as the BetCardGrid,
@@ -103,16 +109,20 @@ public class KenoController {
      * // Called internally by the KenoController class
      * VBox winningsColumn = createWinningsColumn();
      */
-    private
-    VBox createWinningsColumn () {
+    private VBox createWinningsColumn() {
         VBox winningsColumn = new VBox(10);
         winningsColumn.setSpacing(10);
         winningsColumn.setPadding(new Insets(10, 10, 10, 10));
-        winningsColumn.setStyle("-fx-background-color: white;");
+        winningsColumn.setStyle("-fx-background-color: white; -fx-border-color: #333; -fx-border-width: 2px;");
 
         for (int i = 1; i <= 10; i++) {
             HBox row = new HBox(5);
-            row.getChildren().addAll(new Label("Spots: " + i), new Label("Winnings: $..."));
+            Label spotsLabel = new Label("Spots: " + i);
+            spotsLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #333;");
+            Label winningsLabel = new Label("Winnings: $...");
+            winningsLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #333;");
+            row.getChildren().addAll(spotsLabel, winningsLabel);
+            winningsLabels.add(winningsLabel); // Add the winnings label to the list
             winningsColumn.getChildren().add(row);
         }
 
@@ -122,6 +132,7 @@ public class KenoController {
 
         return winningsColumn;
     }
+
 
     /**
      * A method that creates an HBox containing the button blocks for
@@ -249,6 +260,43 @@ public class KenoController {
         return buttonBlock;
     }
 
+    /**
+     * A method that creates a VBox containing the BetCardGrid and
+     * the winnings labels.
+     * @usage
+     * // Called internally by the KenoController class
+     * VBox betCardGridBlock = createBetCardGridBlock(kenoGame);
+     */
+    private void updateWinningsColumn(int numSpots) {
+        int[][] winningsMatrix = {
+                {2},
+                {1, 5, 75},
+                {2, 12, 50, 750, 10000},
+                {5, 2, 15, 40, 450, 4250, 100000}
+        };
+        int[] spotsIndex = {1, 4, 8, 10};
+
+        int index = -1;
+        for (int i = 0; i < spotsIndex.length; i++) {
+            if (spotsIndex[i] == numSpots) {
+                index = i;
+                break;
+            }
+        }
+
+        if (index >= 0) {
+            int[] winnings = winningsMatrix[index];
+            for (int i = 0; i < winningsLabels.size(); i++) {
+                if (i < winnings.length) {
+                    winningsLabels.get(i).setText("Winnings: $" + winnings[i]);
+                } else {
+                    winningsLabels.get(i).setText("Winnings: $...");
+                }
+            }
+        }
+    }
+
+
     // TODO - Implement the KenoController class draw button action
     /**
      * The constructor of the KenoController class. It adds listeners to the selectedSpots
@@ -261,6 +309,7 @@ public class KenoController {
         selectedSpots.addListener((obs, oldValue, newValue) -> {
             betCardGrid.setMaxSpots(newValue); // Set the max spots for BetCardGrid
             betCardGrid.resetButtons(); // Clear the BetCardGrid
+            updateWinningsColumn(newValue); // Update the winnings column based on the selected spots
         });
 
         selectedDraws.addListener((obs, oldValue, newValue) -> {

@@ -7,7 +7,7 @@
       </Languages>
     </inspection_tool>
     <inspection_tool class="JavadocDeclaration" enabled="true" level="WARNING" enabled_by_default="true">
-      <option name="ADDITIONAL_TAGS" value="Usage,usage" />
+      <option name="ADDITIONAL_TAGS" value="Usage,usage,author:,version:,date:,description:" />
     </inspection_tool>
   </profile>
 </component>

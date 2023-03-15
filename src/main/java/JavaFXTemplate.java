@@ -115,7 +115,7 @@ class JavaFXTemplate extends Application {
         root.setStyle("-fx-background-image: url('" + backgroundPath + "');" + // set background image
                 "-fx-background-size: cover;" + // set background size
                 "-fx-background-position: left center;"); // set background position
-        Scene scene = new Scene(root, 700, 700); // create scene
+        Scene scene = new Scene(root, 900, 700); // create scene
         primaryStage.setScene(scene); // add scene to stage
         primaryStage.show(); // display stage
 
