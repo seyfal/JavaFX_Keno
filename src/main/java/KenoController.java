@@ -12,82 +12,59 @@ import java.util.Collections;
 import javafx.scene.Node;
 import java.util.List;
 
-/*
- *The KenoController class helps create the UI layout for a Keno game. The class consists of methods
- * that create and organize various UI components, such as a winnings column, a bet card grid, and
- * several button blocks. The UI is built using JavaFX layouts, including BorderPane, VBox, HBox, and GridPane.
- *
- * Here is an overview of the main components of the class:
- *
- * initializeKenoUI(BorderPane root): This method sets up the main Keno UI by placing the winnings
- * column, bet card grid, and button layout inside the given BorderPane.
- *
- * createWinningsColumn(): Creates a VBox containing the winnings information for each number
- * of spots (1-10). Each row displays the number of spots and the corresponding winnings.
- *
- * createButtonLayout(): Creates an HBox that contains three button blocks: spots, draws,
- * and auto-play. Each block is placed in a VBox.
- *
- * createAutoPlayBox(): Creates a VBox with two buttons, "Auto" and "Play", for the auto-play functionality.
- *
- * createButtonBlock(String title, int[][] numbers): A generic method for creating button blocks
- * with a title and a grid of buttons based on the provided numbers array.
- *
- * To use this class in a JavaFX application, you can create a new instance of KenoController and call
- * the initializeKenoUI(BorderPane root) method. The method takes a BorderPane as an argument, which
- * will serve as the root node of your application's layout.
- *
- *    Here is an example:
- *
- *         // Create a new instance of KenoController
- *         KenoController kenoController = new KenoController();
- *
- *         // Create a BorderPane to serve as the root node of the layout
- *         BorderPane root = new BorderPane();
- *
- *         // Initialize the Keno UI with the root node
- *         kenoController.initializeKenoUI(root);
- *
- *         // Create and display the scene
- *         Scene scene = new Scene(root, 800, 600);
- *         primaryStage.setScene(scene);
- *         primaryStage.setTitle("Keno Game Example");
- *         primaryStage.show();
- *
- */
-
-
 public class KenoController {
 
-    private BetCardGrid                   betCardGrid; // Assuming you have implemented the BetCardGrid class
+    // An instance of the BetCardGrid class that displays the grid of numbers for the user to make bets on.
+    private BetCardGrid                   betCardGrid;
+
+    // A property that holds the currently selected number of spots for the game.
     private SimpleObjectProperty<Integer> selectedSpots = new SimpleObjectProperty<>();
+
+    // A property that holds the currently selected number of draws for the game.
     private SimpleObjectProperty<Integer> selectedDraws = new SimpleObjectProperty<>();
 
 
+    /**
+     * A method that initializes the user interface components, such as the BetCardGrid,
+     * the winnings column, and the buttons. It adds these components to the provided root node.
+     * @usage
+     * KenoController controller = new KenoController();
+     * KenoGame kenoGame = new KenoGame();
+     * BorderPane root = new BorderPane();
+     * controller.initializeKenoUI(root, kenoGame);
+     */
     public
     void initializeKenoUI (BorderPane root, KenoGame kenoGame) {
 
-        betCardGrid = new BetCardGrid(8, 10); // Assuming you have implemented the BetCardGrid class
+        betCardGrid = new BetCardGrid(8, 10); // Create a BetCardGrid with 8 rows and 10 columns
 
-        VBox winningsColumn = createWinningsColumn();
-        root.setLeft(winningsColumn);
+        VBox winningsColumn = createWinningsColumn(); // Create a VBox to display the winnings table
+        root.setLeft(winningsColumn); // Add the winnings column to the left side of the root layout
 
+        // Set the height of the winnings column to match the height of the bet card grid
         winningsColumn.prefHeightProperty().bind(betCardGrid.heightProperty());
 
-        HBox topLayout = new HBox(20);
-        topLayout.setAlignment(Pos.CENTER);
-        topLayout.getChildren().addAll(winningsColumn, betCardGrid);
+        HBox topLayout = new HBox(20); // Create an HBox to hold the bet card grid and the winnings column
+        topLayout.setAlignment(Pos.CENTER); // Center the HBox in the root layout
+        topLayout.getChildren().addAll(winningsColumn, betCardGrid); // Add the bet card grid and the winnings column to the HBox
 
-        HBox buttonLayout = createButtonLayout(kenoGame);
+        HBox buttonLayout = createButtonLayout(kenoGame); // Create an HBox to hold the buttons
 
-        VBox mainLayout = new VBox(30);
-        mainLayout.getChildren().addAll(topLayout, buttonLayout);
-        mainLayout.setAlignment(Pos.CENTER);
-        mainLayout.setPadding(new Insets(20, 20, 20, 20));
+        VBox mainLayout = new VBox(30); // Create a VBox to hold the top layout and the button layout
+        mainLayout.getChildren().addAll(topLayout, buttonLayout); // Add the top layout and the button layout to the VBox
+        mainLayout.setAlignment(Pos.CENTER); // Center the VBox in the root layout
+        mainLayout.setPadding(new Insets(20, 20, 20, 20)); // Add padding to the VBox
 
         root.setCenter(mainLayout);
     }
 
+    /**
+     * A method that creates a VBox with information about the winnings for different
+     * numbers of spots. The VBox is used in the main layout of the Keno UI.
+     * @usage
+     * // Called internally by the KenoController class
+     * VBox winningsColumn = createWinningsColumn();
+     */
     private
     VBox createWinningsColumn () {
         VBox winningsColumn = new VBox(10);
@@ -108,6 +85,13 @@ public class KenoController {
         return winningsColumn;
     }
 
+    /**
+     * A method that creates an HBox containing the button blocks for
+     * selecting spots and draws and the auto-play buttons.
+     * @usage
+     * // Called internally by the KenoController class
+     * HBox buttonLayout = createButtonLayout(kenoGame);
+     */
     private
     HBox createButtonLayout (KenoGame kenoGame) {
         VBox spotsBlock = createButtonBlock("Spots", new int[][]{{1, 4}, {8, 10}}, kenoGame);
@@ -125,14 +109,22 @@ public class KenoController {
         return buttonLayout;
     }
 
+    /**
+     * A method that creates a VBox containing the auto and play
+     * buttons. It also defines their behavior when clicked.
+     * @usage
+     * // Called internally by the KenoController class
+     * VBox autoPlayBox = createAutoPlayBox(kenoGame);
+     */
     private VBox createAutoPlayBox(KenoGame kenoGame) {
         Button autoButton = new CustomButton("Auto");
         Button playButton = new CustomButton("Play");
         playButton.setOnAction(event -> {
-            List<Integer> selectedNumbers = betCardGrid.getSelectedNumbers();
-            int matchedNumbers = kenoGame.playDrawing(selectedNumbers);
-            int winnings = kenoGame.calculateWinnings(matchedNumbers);
-            kenoGame.setTotalWinnings(kenoGame.getTotalWinnings() + winnings);
+            // TODO - Implement the play button
+            List<Integer> selectedNumbers = betCardGrid.getSelectedNumbers(); // Get the numbers selected by the user
+            int matchedNumbers = kenoGame.playDrawing(selectedNumbers); // Play the drawing
+            int winnings = kenoGame.calculateWinnings(matchedNumbers); // Calculate the winnings
+            kenoGame.setTotalWinnings(kenoGame.getTotalWinnings() + winnings); // Update the total winnings
         });
 
         VBox autoPlayBox = new VBox(10);
@@ -158,23 +150,27 @@ public class KenoController {
 
             // Simulate pressing the buttons on the BetCardGrid
             for (Node node : betCardGrid.getChildren()) {
-                if (node instanceof BetButton) {
-                    BetButton betButton = (BetButton) node;
-                    int buttonNumber = betButton.getNumber();
-                    if (randomSpots.contains(buttonNumber)) {
+                if (node instanceof BetButton) { // Check if the node is a BetButton
+                    BetButton betButton = (BetButton) node; // Cast the node to a BetButton
+                    int buttonNumber = betButton.getNumber(); // Get the number of the button
+                    if (randomSpots.contains(buttonNumber)) { // Check if the button number is in the list of random spots
                         betButton.fire(); // Press the button
                     }
                 }
             }
         });
 
-        playButton.setOnAction(event -> {
-            // TODO - Implement the play button
-        });
-
         return autoPlayBox;
     }
 
+    /**
+     * A method that creates a VBox containing a title label and a
+     * grid of buttons for selecting spots or draws.
+     * @usage
+     * // Called internally by the KenoController class
+     * VBox spotsBlock = createButtonBlock("Spots", new int[][]{{1, 4}, {8, 10}}, kenoGame);
+     * VBox drawsBlock = createButtonBlock("Draws", new int[][]{{1, 2}, {3, 4}}, kenoGame);
+     */
     private VBox createButtonBlock(String title, int[][] numbers, KenoGame kenoGame) {
         Label blockTitle = new Label(title);
         blockTitle.setStyle("-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #333;");
@@ -185,37 +181,44 @@ public class KenoController {
         buttonGrid.setHgap(10);
         buttonGrid.setVgap(10);
 
-        for (int i = 0; i < numbers.length; i++) {
-            for (int j = 0; j < numbers[i].length; j++) {
-                Button button = new CustomButton(Integer.toString(numbers[i][j]));
+        for (int i = 0; i < numbers.length; i++) { // Loop through the rows
+            for (int j = 0; j < numbers[i].length; j++) { // Loop through the columns
+                Button button = new CustomButton(Integer.toString(numbers[i][j])); // Create a button with the number as the text
 
-                if (title.equals("Spots")) {
-                    button.setOnAction(event -> {
-                        int numSpots = Integer.parseInt(button.getText());
+                if (title.equals("Spots")) { // Check if the title is "Spots"
+                    button.setOnAction(event -> { // Add an event handler to the button
+                        int numSpots = Integer.parseInt(button.getText()); // Get the number of spots from the button text
                         selectedSpots.set(numSpots); // Update the selectedSpots property
-                        kenoGame.setNumSpots(numSpots);
-                        betCardGrid.enableButtons(true);
+                        kenoGame.setNumSpots(numSpots); // Update the number of spots in the KenoGame
+                        betCardGrid.enableButtons(true); // Enable the buttons on the BetCardGrid
                     });
-                } else if (title.equals("Draws")) {
-                    button.setOnAction(event -> {
-                        int numDraws = Integer.parseInt(button.getText());
+                } else if (title.equals("Draws")) { // Check if the title is "Draws"
+                    button.setOnAction(event -> { // Add an event handler to the button
+                        int numDraws = Integer.parseInt(button.getText()); // Get the number of draws from the button text
                         selectedDraws.set(numDraws); // Update the selectedDraws property
-                        kenoGame.setNumDraws(numDraws);
+                        kenoGame.setNumDraws(numDraws); // Update the number of draws in the KenoGame
                     });
                 }
 
-                buttonGrid.add(button, j, i);
+                buttonGrid.add(button, j, i); // Add the button to the grid
             }
         }
 
-        VBox buttonBlock = new VBox(10);
-        buttonBlock.setAlignment(Pos.CENTER);
-        buttonBlock.getChildren().addAll(blockTitle, buttonGrid);
+        VBox buttonBlock = new VBox(10); // Create a VBox to hold the title and grid
+        buttonBlock.setAlignment(Pos.CENTER); // Center the title and grid
+        buttonBlock.getChildren().addAll(blockTitle, buttonGrid); // Add the title and grid to the VBox
 
         return buttonBlock;
     }
 
     // TODO - Implement the KenoController class draw button action
+    /**
+     * The constructor of the KenoController class. It adds listeners to the selectedSpots
+     * and selectedDraws properties. When the number of spots or draws is changed, the
+     * listeners update the BetCardGrid and perform other actions as needed.
+     * @usage
+     * KenoController controller = new KenoController();
+     */
     public KenoController() {
         selectedSpots.addListener((obs, oldValue, newValue) -> {
             betCardGrid.setMaxSpots(newValue); // Set the max spots for BetCardGrid
