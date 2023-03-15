@@ -11,7 +11,13 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
-/*
+/**
+ * @author: Seyfal Sultanov
+ * @version: 1.1
+ * @date: 2023-03-15
+ *
+ * @description:
+ *
  * BetButton is a custom button class for betting applications, such as lottery games.
  * Each BetButton displays a number, and the button has different states and visual
  * appearances based on its current state.

@@ -18,6 +18,15 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.StrokeType;
 import javafx.scene.text.FontWeight;
 
+/**
+ * @author: Seyfal Sultanov
+ * @author: //TODO add your name here
+ * @version: 3.0
+ * @date: 2023-03-15
+ *
+ * @description: n/a yet
+ */
+
 public
 class JavaFXTemplate extends Application {
     private BorderPane root; // root node of scene graph

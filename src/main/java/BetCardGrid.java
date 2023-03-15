@@ -4,7 +4,13 @@ import javafx.scene.layout.GridPane;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
+/**
+ * @author: Seyfal Sultanov
+ * @version: 3.0
+ * @date: 2023-03-15
+ *
+ * @description:
+ *
  * BetCardGrid is a custom GridPane layout designed for betting applications, such as lottery games.
  * It represents a grid of clickable BetButton instances for selecting numbers on the bet card.
  * Each BetButton in the grid displays a unique number, and players can select and deselect numbers

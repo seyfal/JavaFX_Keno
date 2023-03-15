@@ -3,6 +3,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * @author: Seyfal Sultanov
+ * @version: 2.0
+ * @date: 2023-03-15
+ *
+ * @description: n/a yet
+ */
 public class KenoGame {
 
     private int numDrawings;

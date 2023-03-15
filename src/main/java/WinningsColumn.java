@@ -4,6 +4,13 @@
 //import javafx.scene.layout.HBox;
 //import javafx.scene.layout.VBox;
 //
+///**
+// * @author: Seyfal Sultanov
+// * @version: 1.0
+// * @date: 2023-03-15
+// *
+// * @description: n/a yet
+// */
 //public class WinningsColumn extends VBox {
 //    private KenoGame kenoGame;
 //

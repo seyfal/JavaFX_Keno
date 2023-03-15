@@ -4,6 +4,14 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
+/**
+ * @author: Seyfal Sultanov
+ * @version: 1.0
+ * @date: 2023-03-15
+ *
+ * @description: n/a yet
+ */
+
 public class CustomButton extends Button {
 
     public CustomButton(String text) {
