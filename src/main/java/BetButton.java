@@ -45,25 +45,26 @@ import javafx.util.Duration;
  *
  * Here's a summary of the available states and their corresponding visual appearances:
  *
-        UNSELECTED: Neutral color with black text.
-        SELECTED: Blue color with white text.
-        DRAWN: Light gray color with black text.
-        CORRECT: Green color with white text.
-        INCORRECT: Red color with white text.
+UNSELECTED: Neutral color with black text.
+SELECTED: Blue color with white text.
+DRAWN: Light gray color with black text.
+CORRECT: Green color with white text.
+INCORRECT: Red color with white text.
  *
  * Use getNumber() to get the number displayed on the button.
  * Use getState() to get the current state of the button.
  *
  */
 public class BetButton extends Button {
-    private int number;
-    private ButtonState state;
-    private Circle circle;
-    private Text text;
-    private StackPane stack;
+    private int            number;
+    private ButtonState    state;
+    private Circle         circle;
+    private Text           text;
+    private StackPane      stack;
     private RadialGradient neutralGradient, selectedGradient, drawnGradient;
 
-    public BetButton(int number) { // Constructor
+    public
+    BetButton (int number) { // Constructor
 
         this.number = number; // Set the number of the button
         this.state = ButtonState.UNSELECTED; // Set the state of the button to unselected
@@ -107,7 +108,8 @@ public class BetButton extends Button {
 
     }
 
-    private void onMouseClicked(MouseEvent event) {
+    private
+    void onMouseClicked (MouseEvent event) {
         // Add the scaling animation
         ScaleTransition st = new ScaleTransition(Duration.millis(150), this);
         st.setFromX(1);
@@ -119,7 +121,8 @@ public class BetButton extends Button {
         st.play();
     }
 
-    public void toggleSelection() {
+    public
+    void toggleSelection () {
         if (state == ButtonState.UNSELECTED) {
             state = ButtonState.SELECTED;
         } else if (state == ButtonState.SELECTED) {
@@ -128,7 +131,8 @@ public class BetButton extends Button {
         updateAppearance();
     }
 
-    private void updateAppearance() {
+    private
+    void updateAppearance () {
         switch (state) {
             case UNSELECTED:
                 circle.setFill(neutralGradient);
@@ -153,20 +157,27 @@ public class BetButton extends Button {
         }
     }
 
-    public int getNumber() {
+    public
+    int getNumber () {
         return number;
     }
-    public ButtonState getState() {
+
+    public
+    ButtonState getState () {
         return state;
     }
-    public Button getButton() { return this; }
 
-    public void setState(ButtonState state) {
+    public
+    Button getButton () { return this; }
+
+    public
+    void setState (ButtonState state) {
         this.state = state;
         updateAppearance();
     }
 
-    public enum ButtonState {
+    public
+    enum ButtonState {
         UNSELECTED, SELECTED, DRAWN, CORRECT, INCORRECT
     }
 }

@@ -32,8 +32,8 @@ class JavaFXTemplate extends Application {
     private BorderPane root; // root node of scene graph
     private Text       welcomeText; // welcome text
     private Button     backButton; // back button
-    private int  newLookNum; // number of times new-look button has been clicked
-    private Node previousPage; // previous page
+    private int        newLookNum; // number of times new-look button has been clicked
+    private Node       previousPage; // previous page
 
 
     public static
@@ -44,7 +44,6 @@ class JavaFXTemplate extends Application {
 
     @Override
     public
-        // TODO: Take a look at the exception as it is never thrown in the mentioned method
     void start (Stage primaryStage) { // called by launch()
         primaryStage.setTitle("Welcome to JavaFX"); // set title of window
 
@@ -77,7 +76,7 @@ class JavaFXTemplate extends Application {
         MenuItem odds = new MenuItem("Odds of Winning"); // create odds menu item
         MenuItem newLook = new MenuItem("New Look"); // create new-look menu item
         MenuItem exit = new MenuItem("Exit"); // create exit menu item
-        fileMenu.getItems().addAll(rules, odds, newLook, exit); // add menu items to file menu
+        fileMenu.getItems().addAll(rules, odds, exit); // add menu items to file menu
         menuBar.getMenus().addAll(fileMenu); // add file menu to menu bar
         root.setTop(menuBar); // add menu bar to root node of scene graph
 
@@ -101,6 +100,8 @@ class JavaFXTemplate extends Application {
          * handling the user's input, and updating the Keno UI.
          */
         playButton.setOnAction(event -> { // add event handler to play button
+            // add new look to the menu bar
+            fileMenu.getItems().add(2, newLook);
             KenoGame kenoGame = new KenoGame(); // first create a KenoGame object
             KenoController kenoController = new KenoController(); // then create a KenoController object
             kenoController.initializeKenoUI(root, kenoGame); // initialize the Keno UI and pass the root node of the scene graph and the KenoGame object to the KenoController object
@@ -115,7 +116,7 @@ class JavaFXTemplate extends Application {
         root.setStyle("-fx-background-image: url('" + backgroundPath + "');" + // set background image
                 "-fx-background-size: cover;" + // set background size
                 "-fx-background-position: left center;"); // set background position
-        Scene scene = new Scene(root, 900, 700); // create scene
+        Scene scene = new Scene(root, 900, 800); // create scene
         primaryStage.setScene(scene); // add scene to stage
         primaryStage.show(); // display stage
 
@@ -143,6 +144,7 @@ class JavaFXTemplate extends Application {
             root.getChildren().remove(menuBar); // remove menu bar from root node of scene graph
             welcomeText.setText("Odds"); // set text of welcome text
             root.setCenter(welcomeText); // add welcome text to root node of scene graph
+            displayOdds();
             backButton = new Button("Back"); // create back button
 
             backButton.setOnAction(event1 -> { // add event handler to back button
@@ -210,6 +212,36 @@ class JavaFXTemplate extends Application {
         }
 
         ScrollPane scrollPane = new ScrollPane(rulesBox);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setStyle("-fx-background-color: transparent; -fx-padding: 20;");
+        root.setCenter(scrollPane);
+    }
+
+    private void displayOdds() {
+        VBox OddsBox = new VBox(20);
+        OddsBox.setStyle("-fx-padding: 20;");
+        Text title = new Text("Keno Rules:");
+        title.setFont(Font.font("Verdana", FontWeight.BOLD, 24));
+        OddsBox.getChildren().add(title);
+
+        // change odds
+
+        String[] OddsText = {
+                "The Odds of Winning:\n",
+                "1 Spot Game: 1 in 4.00\n",
+                "4 Spot Game: 1 in 3.86\n",
+                "8 Spot Game: 1 in 9.77\n",
+                "10 Spot Game: 1 in 9.05"
+        };
+
+        for (String odd : OddsText) {
+            Text oddText = new Text(odd);
+            oddText.setFont(Font.font("Verdana", FontWeight.NORMAL, 18));
+            oddText.setWrappingWidth(600);
+            OddsBox.getChildren().add(oddText);
+        }
+
+        ScrollPane scrollPane = new ScrollPane(OddsBox);
         scrollPane.setFitToWidth(true);
         scrollPane.setStyle("-fx-background-color: transparent; -fx-padding: 20;");
         root.setCenter(scrollPane);

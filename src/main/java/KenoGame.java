@@ -2,26 +2,29 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * @author: Seyfal Sultanov
+ * @author: Second Author
  * @version: 2.0
  * @date: 2023-03-15
  *
- * @description: n/a yet
+ * @description: A class representing a Keno game with functionality to play drawings,
+ * calculate winnings, and manage game state.
  */
 public class KenoGame {
-
     private int numDrawings;
     private int numSpots;
     private int totalWinnings;
     private List<Integer> drawnNumbers;
 
     public KenoGame() {
-        this.numDrawings = 0;
-        this.numSpots = 0;
-        this.totalWinnings = 0;
-        this.drawnNumbers = new ArrayList<>();
+        numDrawings = 0;
+        numSpots = 0;
+        totalWinnings = 0;
+        drawnNumbers = new ArrayList<>();
     }
 
     public int playDrawing(List<Integer> selectedNumbers) {
@@ -31,21 +34,14 @@ public class KenoGame {
     }
 
     private void drawNumbers() {
-        List<Integer> possibleNumbers = new ArrayList<>();
-        for (int i = 1; i <= 80; i++) {
-            possibleNumbers.add(i);
-        }
+        List<Integer> possibleNumbers = IntStream.rangeClosed(1, 80).boxed().collect(Collectors.toList());
         Collections.shuffle(possibleNumbers, new Random());
-        for (int i = 0; i < 20; i++) {
-            drawnNumbers.add(possibleNumbers.get(i));
-        }
+        drawnNumbers = possibleNumbers.subList(0, 20);
     }
 
     public int calculateWinnings(int matchedNumbers) {
         int winnings = 0;
 
-        // Calculate winnings based on the matched numbers and numSpots
-        // You should replace the following code with the actual payout rules for your Keno game
         if (numSpots == 1) {
             if (matchedNumbers == 1) {
                 winnings += 2;
@@ -129,5 +125,11 @@ public class KenoGame {
 
     public void setTotalWinnings(int totalWinnings) {
         this.totalWinnings = totalWinnings;
+    }
+    public void resetGame() {
+        this.numDrawings = 0;
+        this.numSpots = 0;
+        this.totalWinnings = 0;
+        this.drawnNumbers.clear();
     }
 }
