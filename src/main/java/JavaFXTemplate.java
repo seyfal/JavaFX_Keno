@@ -7,6 +7,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -184,11 +185,11 @@ class JavaFXTemplate extends Application {
         rulesBox.getChildren().add(title);
 
         String[] rulesText = {
-                "1. Select the number of spots you want to play, from 1 to 10.",
+                "1. Select the number of spots you want to play (1 to 10).",
                 "2. Choose your bet amount.",
-                "3. Pick the numbers you want to play, from 1 to 80.",
-                "4. The game will then draw 20 random numbers.",
-                "5. You will win if your selected numbers match the drawn numbers.",
+                "3. Pick the numbers you want to play (1 to 80).",
+                "4. The game will draw 20 random numbers.",
+                "5. Win if your selected numbers match the drawn numbers.",
                 "6. The more numbers you match, the higher your prize.",
         };
 
@@ -196,19 +197,27 @@ class JavaFXTemplate extends Application {
             Text ruleText = new Text(rule);
             ruleText.setFont(Font.font("Verdana", FontWeight.NORMAL, 18));
             ruleText.setWrappingWidth(600);
-            ruleText.setStyle("-fx-background-color: white");
-            ruleText.setTextAlignment(TextAlignment.CENTER);
+            ruleText.setTextAlignment(TextAlignment.JUSTIFY);
             rulesBox.getChildren().add(ruleText);
         }
         rulesBox.getChildren().add(backButton);
-
 
         ScrollPane scrollPane = new ScrollPane(rulesBox);
         scrollPane.setFitToWidth(true);
         scrollPane.setStyle("-fx-background-color: transparent; -fx-padding: 20;");
 
-        // Center the VBox in the scene
-        root.setCenter(rulesBox);
+        // Create a white rectangle as a background
+        Rectangle background = new Rectangle();
+        background.widthProperty().bind(scrollPane.widthProperty());
+        background.heightProperty().bind(scrollPane.heightProperty());
+        background.setFill(Color.WHITE);
+
+        // Add the background rectangle and the scroll pane to a StackPane
+        StackPane stackPane = new StackPane();
+        stackPane.getChildren().addAll(background, scrollPane);
+
+        // Center the StackPane in the scene
+        root.setCenter(stackPane);
     }
 
 
@@ -240,13 +249,21 @@ class JavaFXTemplate extends Application {
         }
         OddsBox.getChildren().add(backButton);
 
-
         ScrollPane scrollPane = new ScrollPane(OddsBox);
         scrollPane.setFitToWidth(true);
         scrollPane.setStyle("-fx-background-color: transparent; -fx-padding: 20;");
 
-        // Center the VBox in the scene
+        // Create a white rectangle as a background
+        Rectangle background = new Rectangle();
+        background.widthProperty().bind(scrollPane.widthProperty());
+        background.heightProperty().bind(scrollPane.heightProperty());
+        background.setFill(Color.WHITE);
 
-        root.setCenter(OddsBox);
+        // Add the background rectangle and the scroll pane to a StackPane
+        StackPane stackPane = new StackPane();
+        stackPane.getChildren().addAll(background, scrollPane);
+
+        // Center the VBox in the scene
+        root.setCenter(stackPane);
     }
 }

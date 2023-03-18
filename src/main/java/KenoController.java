@@ -189,11 +189,12 @@ public class KenoController {
         winningsColumn.setPadding(new Insets(10, 10, 10, 10));
         winningsColumn.setStyle("-fx-background-color: white; -fx-border-color: #333; -fx-border-width: 2px;");
 
-        // Iterate over the rows in the winnings column
-        for (int i = 1; i <= 11; i++) {
-            // Create an HBox container for each row
-            HBox row = new HBox(100);
+        // Create a GridPane container for the chart
+        GridPane gridPane = new GridPane();
+        gridPane.setHgap(20);
+        gridPane.setVgap(16);
 
+        for (int i = 1; i <= 11; i++) {
             // Create and style the spots label
             Label spotsLabel;
             if (i == 1) {
@@ -203,7 +204,7 @@ public class KenoController {
                 spotsLabel = new Label();
                 spotsLabel.setUnderline(false);
             }
-            spotsLabel.setStyle("-fx-font-size: 15;-fx-font-weight: bold; -fx-text-fill: #333;");
+            spotsLabel.setStyle("-fx-font-size: 18;-fx-font-weight: bold; -fx-text-fill: #333;");
 
             // Create and style the winnings label
             Label winningsLabel;
@@ -214,21 +215,24 @@ public class KenoController {
                 winningsLabel = new Label();
                 winningsLabel.setUnderline(false);
             }
-            winningsLabel.setStyle("-fx-font-size: 15; -fx-font-weight: bold; -fx-text-fill: #333;");
+            winningsLabel.setStyle("-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #333;");
 
-            // Add the spots and winnings labels to the row and set row alignment
-            row.getChildren().addAll(spotsLabel, winningsLabel);
-            row.setAlignment(Pos.CENTER);
+            // Add the spots and winnings labels to the GridPane
+            GridPane.setConstraints(spotsLabel, 0, i - 1);
+            GridPane.setConstraints(winningsLabel, 1, i - 1);
+            gridPane.getChildren().addAll(spotsLabel, winningsLabel);
 
-            // Add the row to the winnings column and store the labels in their respective lists
+            // Store the labels in their respective lists
             winningsLabels.add(winningsLabel);
-            winningsLabel.setTextAlignment(TextAlignment.CENTER);
-            winningsColumn.getChildren().add(row);
             spotsLabels.add(spotsLabel);
         }
 
+        // Add the GridPane to the winnings column
+        winningsColumn.getChildren().add(gridPane);
+
         return winningsColumn;
     }
+
 
     /**
      * @author:  Seyfal Sultanov

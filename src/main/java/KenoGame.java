@@ -98,7 +98,6 @@ public class KenoGame {
     }
 
 
-
     // Getters
     public int getNumDraws() {
         return numDrawings;
@@ -131,6 +130,7 @@ public class KenoGame {
     public void setTotalWinnings(int totalWinnings) {
         this.totalWinnings = totalWinnings;
     }
+
     public void resetGame() {
         this.numDrawings = 0;
         this.numSpots = 0;
