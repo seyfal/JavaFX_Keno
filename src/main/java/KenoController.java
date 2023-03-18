@@ -96,10 +96,10 @@ public class KenoController {
     private final List<Label> spotsLabels = new ArrayList<>();
 
     // Create a custom text field to display the current game winnings
-    CustomTextField gameWinningsBlock = new CustomTextField("Game: 0");
+    CustomTextField gameWinningsBlock = new CustomTextField("Game: $0");
 
     // Create a custom text field to display the total winnings
-    CustomTextField totalWinningsBlock = new CustomTextField("total: 0");
+    CustomTextField totalWinningsBlock = new CustomTextField("total: $0");
 
     // Create an HBox to hold the numbers drawn during the game
     HBox numberBox = new HBox();
@@ -192,7 +192,7 @@ public class KenoController {
         // Create a GridPane container for the chart
         GridPane gridPane = new GridPane();
         gridPane.setHgap(20);
-        gridPane.setVgap(16);
+        gridPane.setVgap(13);
 
         for (int i = 1; i <= 11; i++) {
             // Create and style the spots label
@@ -260,8 +260,8 @@ public class KenoController {
         blockTitle.setAlignment(Pos.CENTER);
 
         // Initialize and configure the total winnings and game winnings text fields
-        totalWinningsBlock = new CustomTextField("total: " + 0);
-        gameWinningsBlock = new CustomTextField("Game: "+ 0);
+        totalWinningsBlock = new CustomTextField("total: $" + 0);
+        gameWinningsBlock = new CustomTextField("Game: $"+ 0);
 
         // Create and configure a grid to hold the winnings text fields
         GridPane buttonGrid = new GridPane();
@@ -409,8 +409,8 @@ public class KenoController {
             // Update winnings and display them on the UI.
             gameWinnings += kenoGame.calculateWinnings(matchedNumbers);
             kenoGame.setTotalWinnings(kenoGame.getTotalWinnings() + kenoGame.calculateWinnings(matchedNumbers));
-            gameWinningsBlock.setText("Game: " + gameWinnings);
-            totalWinningsBlock.setText("Total: " + kenoGame.getTotalWinnings());
+            gameWinningsBlock.setText("Game: $" + gameWinnings);
+            totalWinningsBlock.setText("Total: $" + kenoGame.getTotalWinnings());
 
             // Create a timeline for displaying drawn numbers.
             Timeline timeline = new Timeline();
@@ -454,22 +454,17 @@ public class KenoController {
                 // If there are more draws remaining, update the number of draws and the playButton text.
                 if (kenoGame.getNumDraws() > 1) {
                     kenoGame.setNumDraws(kenoGame.getNumDraws() - 1);
-                    System.out.println("Numbers left to draw: " + kenoGame.getNumDraws());
+
                     playButton.setText("Continue");
                 } else {
                     // If the game is over, display the winnings and reset the game.
                     Platform.runLater(() -> {
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION, "You have won " + gameWinnings + " this game! Keep playing to earn more!", ButtonType.OK);
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION, "You have won $" + gameWinnings + " this game! Keep playing to earn more!", ButtonType.OK);
                         alert.showAndWait();
                         resetGame(kenoGame, numberBox, playButton);
                     });
                 }
             });
-
-            // Print the game winnings, total winnings, and matched numbers to the console.
-            System.out.println("You won: " + gameWinnings);
-            System.out.println("Total winnings: " + kenoGame.getTotalWinnings());
-            System.out.println("You matched: " + matchedNumbers);
         });
 
         return autoPlayBox;
@@ -510,19 +505,30 @@ public class KenoController {
                 // Set the action for the button depending on whether it's for spots or draws
                 if (title.equals("Spots")) {
                     button.setOnAction(event -> {
-                        int numSpots = Integer.parseInt(button.getText());
-                        selectedSpots.set(numSpots);
-                        kenoGame.setNumSpots(numSpots);
-                        betCardGrid.enableButtons(true);
+                        if(playButton.getText().equals("Play")) {
+                            int numSpots = Integer.parseInt(button.getText());
+                            selectedSpots.set(numSpots);
+                            kenoGame.setNumSpots(numSpots);
+                            betCardGrid.enableButtons(true);
+                        }
+                        else {
+                            Alert alert = new Alert(Alert.AlertType.ERROR, "You cannot change the number of spots while the game is in progress!", ButtonType.OK);
+                            alert.showAndWait();
+                        }
                     });
                 } else if (title.equals("Draws")) {
                     button.setOnAction(event -> {
-                        int numDraws = Integer.parseInt(button.getText());
-                        selectedDraws.set(numDraws);
-                        kenoGame.setNumDraws(numDraws);
+                        if(playButton.getText().equals("Play")) {
+                            int numDraws = Integer.parseInt(button.getText());
+                            selectedDraws.set(numDraws);
+                            kenoGame.setNumDraws(numDraws);
+                        }
+                        else {
+                            Alert alert = new Alert(Alert.AlertType.ERROR, "You cannot change the number of draws while the game is in progress!", ButtonType.OK);
+                            alert.showAndWait();
+                        }
                     });
                 }
-
                 // Add the button to the grid
                 buttonGrid.add(button, j, i);
             }
@@ -614,29 +620,14 @@ public class KenoController {
         // Add a listener to the selectedSpots property
         selectedSpots.addListener((obs, oldValue, newValue) -> {
             // Only update the BetCardGrid if the game is not ongoing
-            if (playButton.getText().equals("Play")) {
-                betCardGrid.setMaxSpots(newValue); // Set the max spots for BetCardGrid
-                System.out.println("Number of spots: " + newValue);
-                betCardGrid.resetButtons(); // Clear the BetCardGrid
-                updateWinningsColumn(newValue); // Update the winnings column based on the selected spots
-            } else {
-                // Display an error message if the game is ongoing
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Wait for the game to finish or reset the game!", ButtonType.OK);
-                alert.showAndWait();
-            }
+            betCardGrid.setMaxSpots(newValue); // Set the max spots for BetCardGrid
+            updateWinningsColumn(newValue); // Update the winnings column based on the selected spots
         });
 
         // Add a listener to the selectedDraws property
         selectedDraws.addListener((obs, oldValue, newValue) -> {
             // Only update the number of draws if the game is not ongoing
-            if (playButton.getText().equals("Play")) {
-                betCardGrid.setNumDraws(newValue);
-                System.out.println("Number of draws: " + newValue);
-            } else {
-                // Display an error message if the game is ongoing
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Wait for the game to finish or reset the game!", ButtonType.OK);
-                alert.showAndWait();
-            }
+            betCardGrid.setNumDraws(newValue);
         });
     }
 
@@ -660,7 +651,7 @@ public class KenoController {
         selectedDraws.set(0); // Reset the selected draws
         updateWinningsColumn(0); // Update the winnings column
         gameWinnings = 0; // Reset the game winnings
-        gameWinningsBlock.setText("Game: " + gameWinnings); // Update the game winnings text
+        gameWinningsBlock.setText("Game: $" + gameWinnings); // Update the game winnings text
         kenoGame.resetGame(); // Reset the KenoGame instance
         numberBox.getChildren().clear(); // Clear the drawn numbers in the numberBox
         playButton.setText("Play"); // Update the play button text
