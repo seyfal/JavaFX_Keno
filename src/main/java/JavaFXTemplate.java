@@ -11,6 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.layout.BorderPane;
@@ -30,21 +31,21 @@ import javafx.scene.text.FontWeight;
 public
 class JavaFXTemplate extends Application {
     private BorderPane root; // root node of scene graph
-    private Text       welcomeText; // welcome text
-    private Button     backButton; // back button
-    private int        newLookNum; // number of times new-look button has been clicked
-    private Node       previousPage; // previous page
+    private Text welcomeText; // welcome text
+    private CustomButton backButton = new CustomButton("Back"); // back button
+    private int newLookNum; // number of times new-look button has been clicked
+    private Node previousPage; // previous page
+    private boolean isPlaying;
+    KenoGame kenoGame = new KenoGame();
 
 
-    public static
-    void main (String[] args) { // entry point of JavaFX application
+    public static void main(String[] args) { // entry point of JavaFX application
         launch(args); // launch JavaFX application
     }
 
 
     @Override
-    public
-    void start (Stage primaryStage) { // called by launch()
+    public void start(Stage primaryStage) { // called by launch()
         primaryStage.setTitle("Welcome to JavaFX"); // set title of window
 
         // @
@@ -68,6 +69,7 @@ class JavaFXTemplate extends Application {
 
         ft.play(); // play fade transition
         root = new BorderPane(); // create root node of scene graph
+        isPlaying = false;
 
         // add menu bar
         MenuBar menuBar = new MenuBar(); // create menu bar
@@ -81,7 +83,7 @@ class JavaFXTemplate extends Application {
         root.setTop(menuBar); // add menu bar to root node of scene graph
 
         // add welcome text
-        welcomeText = new Text("Welcome to Keno"); // create welcome text
+        welcomeText = new Text("Welcome to Keno\n"); // create welcome text
         welcomeText.setFont(Font.font("Verdana", FontWeight.BOLD, 40)); // set font of welcome text
         welcomeText.setFill(Color.WHITE); // set fill color of welcome text
         welcomeText.setStroke(Color.BLACK); // set stroke color of welcome text
@@ -90,7 +92,7 @@ class JavaFXTemplate extends Application {
         root.setCenter(welcomeText); // add welcome text to root node of scene graph
 
         // add play button
-        Button playButton = new Button("Play"); // create play button
+        CustomButton playButton = new CustomButton("Play"); // create play button
         playButton.setFont(new Font(30)); // set font of play button
 
         // ----------------- KenoController -----------------
@@ -101,8 +103,8 @@ class JavaFXTemplate extends Application {
          */
         playButton.setOnAction(event -> { // add event handler to play button
             // add new look to the menu bar
+            isPlaying = true;
             fileMenu.getItems().add(2, newLook);
-            KenoGame kenoGame = new KenoGame(); // first create a KenoGame object
             KenoController kenoController = new KenoController(); // then create a KenoController object
             kenoController.initializeKenoUI(root, kenoGame); // initialize the Keno UI and pass the root node of the scene graph and the KenoGame object to the KenoController object
         });
@@ -124,42 +126,25 @@ class JavaFXTemplate extends Application {
         rules.setOnAction(event -> {
             previousPage = root.getCenter();
             root.getChildren().remove(menuBar);
-            displayRules();
-            backButton = new Button("Back");
-            backButton.setStyle("-fx-font-size: 16; -fx-min-width: 100; -fx-min-height: 40;");
+            displayRules(backButton);
 
             backButton.setOnAction(event1 -> {
                 root.setTop(menuBar);
                 root.setLeft(null);
                 root.setCenter(previousPage);
             });
-
-            VBox vbox = new VBox(10, backButton);
-            vbox.setAlignment(Pos.BOTTOM_LEFT);
-            root.setLeft(vbox);
         });
 
         odds.setOnAction(event -> { // add event handler to odds menu item
-
+            previousPage = root.getCenter();    // save previous page
             root.getChildren().remove(menuBar); // remove menu bar from root node of scene graph
-            welcomeText.setText("Odds"); // set text of welcome text
-            root.setCenter(welcomeText); // add welcome text to root node of scene graph
-            displayOdds();
-            backButton = new Button("Back"); // create back button
+            displayOdds(backButton);
 
-            backButton.setOnAction(event1 -> { // add event handler to back button
-
-                root.setTop(menuBar); // add menu bar to root node of scene graph
-                welcomeText.setText("Welcome to Keno"); // set text of welcome text
-                root.setLeft(null); // remove back button from root node of scene graph
-                vBox.getChildren().clear(); // remove welcome text and play button from vertical box
-                vBox.getChildren().addAll(welcomeText, playButton); // add welcome text and play button to vertical box
-                root.setCenter(vBox); // add vertical box to root node of scene graph
-
+            backButton.setOnAction(event1 -> {
+                root.setTop(menuBar);
+                root.setLeft(null);
+                root.setCenter(previousPage);
             });
-
-            VBox vbox = new VBox(10, backButton); // create vertical box
-            root.setLeft(vbox); // add vertical box to root node of scene graph
         });
 
         newLook.setOnAction(event -> { // add event handler to new-look menu item
@@ -188,9 +173,12 @@ class JavaFXTemplate extends Application {
         exit.setOnAction(event -> primaryStage.close()); // add event handler to exit menu item
     }
 
-    private void displayRules() {
+
+    private void displayRules(Button backButton) {
         VBox rulesBox = new VBox(20);
-        rulesBox.setStyle("-fx-padding: 20;");
+        rulesBox.setStyle("-fx-padding: 20; -fx-background-color: transparent;");
+        rulesBox.setAlignment(Pos.CENTER);
+
         Text title = new Text("Keno Rules:");
         title.setFont(Font.font("Verdana", FontWeight.BOLD, 24));
         rulesBox.getChildren().add(title);
@@ -208,44 +196,57 @@ class JavaFXTemplate extends Application {
             Text ruleText = new Text(rule);
             ruleText.setFont(Font.font("Verdana", FontWeight.NORMAL, 18));
             ruleText.setWrappingWidth(600);
+            ruleText.setStyle("-fx-background-color: white");
+            ruleText.setTextAlignment(TextAlignment.CENTER);
             rulesBox.getChildren().add(ruleText);
         }
+        rulesBox.getChildren().add(backButton);
+
 
         ScrollPane scrollPane = new ScrollPane(rulesBox);
         scrollPane.setFitToWidth(true);
         scrollPane.setStyle("-fx-background-color: transparent; -fx-padding: 20;");
-        root.setCenter(scrollPane);
+
+        // Center the VBox in the scene
+        root.setCenter(rulesBox);
     }
 
-    private void displayOdds() {
+
+    private void displayOdds(Button backButton) {
         VBox OddsBox = new VBox(20);
-        OddsBox.setStyle("-fx-padding: 20;");
-        Text title = new Text("Keno Rules:");
+        OddsBox.setStyle("-fx-padding: 20; -fx-background-color: transparent;");
+        OddsBox.setAlignment(Pos.CENTER);
+
+        Text title = new Text("The Odds of Winning:");
         title.setFont(Font.font("Verdana", FontWeight.BOLD, 24));
         OddsBox.getChildren().add(title);
 
         // change odds
 
         String[] OddsText = {
-                "The Odds of Winning:\n",
-                "1 Spot Game: 1 in 4.00\n",
-                "4 Spot Game: 1 in 3.86\n",
-                "8 Spot Game: 1 in 9.77\n",
+                "1 Spot Game: 1 in 4.00",
+                "4 Spot Game: 1 in 3.86",
+                "8 Spot Game: 1 in 9.77",
                 "10 Spot Game: 1 in 9.05"
         };
 
-        for (String odd : OddsText) {
-            Text oddText = new Text(odd);
-            oddText.setFont(Font.font("Verdana", FontWeight.NORMAL, 18));
-            oddText.setWrappingWidth(600);
-            OddsBox.getChildren().add(oddText);
+        for (String odds : OddsText) {
+            Text OddText = new Text(odds);
+            OddText.setFont(Font.font("Verdana", FontWeight.NORMAL, 18));
+            OddText.setWrappingWidth(600);
+            OddText.setStyle("-fx-background-color: white");
+            OddText.setTextAlignment(TextAlignment.CENTER);
+            OddsBox.getChildren().add(OddText);
         }
+        OddsBox.getChildren().add(backButton);
+
 
         ScrollPane scrollPane = new ScrollPane(OddsBox);
         scrollPane.setFitToWidth(true);
         scrollPane.setStyle("-fx-background-color: transparent; -fx-padding: 20;");
-        root.setCenter(scrollPane);
+
+        // Center the VBox in the scene
+
+        root.setCenter(OddsBox);
     }
-
-
 }

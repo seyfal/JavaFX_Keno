@@ -97,6 +97,8 @@ public class KenoGame {
         return matchedNumbers;
     }
 
+
+
     // Getters
     public int getNumDraws() {
         return numDrawings;
@@ -115,6 +117,9 @@ public class KenoGame {
     }
 
     // Setters
+    public void setDrawnNumbers(List<Integer> drawnNumbers) {
+        this.drawnNumbers = drawnNumbers;
+    }
     public void setNumDraws(int numDraws) {
         this.numDrawings = numDraws;
     }
