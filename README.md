@@ -20,7 +20,7 @@ In our version:
 
 1. Clone the repository:
 ```
-git clone https://github.com/yourusername/keno-game.git
+git clone https://github.com/seyfal/keno-game.git
 ```
 2. Open in your favorite Java IDE (Eclipse, IntelliJ, etc.).
 3. Build with Maven:
@@ -61,8 +61,4 @@ mvn test
 
 ## Credits
 
-This Keno Game was meticulously crafted by Seyfal Sultanov and Name2 as a part of the CS 342 course at the University of Illinois at Chicago.
-
----
-
-Remember to replace placeholders like `yourusername` and `Name2` with the appropriate values.
+This Keno Game was crafted by Seyfal Sultanov as a part of the CS 342 course at the University of Illinois at Chicago.
