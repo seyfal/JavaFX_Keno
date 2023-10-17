@@ -1,6 +1,4 @@
-Sure, here's a well-formatted README.md for your Keno Game project:
 
----
 
 # Keno Game
 
