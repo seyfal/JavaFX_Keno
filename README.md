@@ -20,7 +20,7 @@ In our version:
 
 1. Clone the repository:
 ```
-git clone [https://github.com/seyfal/keno-game.git](https://github.com/seyfal/JavaFX_Keno.git)
+git clone https://github.com/seyfal/JavaFX_Keno.git
 ```
 2. Open in your favorite Java IDE (Eclipse, IntelliJ, etc.).
 3. Build with Maven:
